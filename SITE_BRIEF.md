@@ -8,6 +8,10 @@
 > do not treat this file as observation.
 
 ## Identity
+- **Name:** [VERIFIED] "English Heritage Cookbook" — from the `kevynsgrin-a11y/Bangersandmash` repo
+  description, which exists solely to hold this site's URL. Confirm the on-page wordmark matches at
+  intake; a mismatch between repo name (*Bangers and Mash*), Emergent slug (*gastropub-table*) and
+  stated name is itself a brand-coherence finding.
 - **One job:** [VERIFIED] Give a home cook an accurate, regionally-grounded British recipe they can
   cook tonight — full ingredient list with quantities, numbered method, and a cook's note.
 - **Audience & moment of need:** [UNKNOWN] Not stated anywhere in the build record. Infer at intake
