@@ -9,7 +9,7 @@
  * any P0. Run this before merging into mockData.js, and again after.
  */
 
-const { EXPANSION_RECIPES } = require("./recipes-expansion.js");
+import { EXPANSION_RECIPES } from "./recipes-expansion.js";
 
 const CATEGORIES = [
   "Sunday Roasts",
