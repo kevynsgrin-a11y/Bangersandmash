@@ -242,6 +242,42 @@ test("TEST-05: report() says FAIL when there is a P0", () => {
   assert.match(out.join("\n"), /Verdict: FAIL/);
 });
 
+// ------------- DOC-03: the pasteable prompts must equal the module's
+test("DOC-03: every IMAGE_PROMPTS.md block matches its module imagePrompt", () => {
+  const doc = readFileSync(
+    fileURLToPath(new URL("./IMAGE_PROMPTS.md", import.meta.url)),
+    "utf8"
+  );
+  const blocks = {};
+  const re = /^### `([a-z0-9-]+)`[^\n]*\n(?:\*[^\n]*\*\n)?\n```\n([\s\S]*?)\n```/gm;
+  let m;
+  while ((m = re.exec(doc))) blocks[m[1]] = m[2];
+
+  assert.equal(Object.keys(blocks).length, 32, "one block per recipe");
+  const norm = (s) => s.replace(/\s+/g, " ").trim();
+  for (const r of EXPANSION_RECIPES) {
+    assert.ok(blocks[r.slug], `no prompt block for ${r.slug}`);
+    assert.equal(
+      norm(blocks[r.slug]),
+      norm(r.imagePrompt),
+      `${r.slug}: doc prompt has drifted from the module`
+    );
+  }
+});
+
+test("DOC-03: no prompt line ends mid-compound on a hyphen", () => {
+  // A line break after a hyphen turns "burgundy-glazed" into "burgundy- glazed"
+  // when pasted, which is what caused the drift.
+  const doc = readFileSync(
+    fileURLToPath(new URL("./IMAGE_PROMPTS.md", import.meta.url)),
+    "utf8"
+  );
+  const offenders = doc
+    .split("\n")
+    .filter((l) => /[a-z]-$/.test(l.trimEnd()));
+  assert.deepEqual(offenders, []);
+});
+
 // ---------------------- DOC-02: documented commands must be runnable as-is
 test("DOC-02: the --only invocation lists all 32 slugs and no ellipsis", () => {
   const doc = readFileSync(
