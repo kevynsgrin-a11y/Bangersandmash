@@ -81,6 +81,31 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// ------------------------------- GATE-09: the gate must name the real cause
+test("GATE-09: a duplicate title is reported as a duplicate title", () => {
+  const r = clone();
+  r[1].title = r[0].title;
+  assert.match(validate(r).p0.join("\n"), /duplicate titles/);
+});
+
+test("GATE-09: obeying the slug message no longer trades one P2 for two P0s", () => {
+  // Before: a duplicate title produced only "slug does not derive from title",
+  // and following that instruction produced a duplicate slug plus a broken
+  // image path. The cause is now named directly.
+  const r = clone();
+  r[1].title = r[0].title;
+  const out = validate(r);
+  assert.ok(
+    out.p0.some((f) => /duplicate titles/.test(f)),
+    "the real cause is reported"
+  );
+});
+
+test("GATE-09: the real corpus has no duplicate titles", () => {
+  const titles = EXPANSION_RECIPES.map((r) => r.title);
+  assert.equal(new Set(titles).size, titles.length);
+});
+
 // --------------------------------------------- GATE-07: merge-time collisions
 test("GATE-07: a slug already in the library is reported as a collision", () => {
   assert.deepEqual(collisions(["cullen-skink"], EXPANSION_RECIPES), ["cullen-skink"]);

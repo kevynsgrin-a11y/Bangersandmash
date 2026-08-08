@@ -193,6 +193,16 @@ const slugs = recipes.map((r) => r.slug);
 const dupes = slugs.filter((x, i) => slugs.indexOf(x) !== i);
 if (dupes.length) fail(p0, "(global)", `duplicate slugs: ${[...new Set(dupes)].join(", ")}`);
 
+// Check titles before slugs get blamed for them. Two recipes sharing a title
+// cannot both derive their slug from it, so the per-recipe slug check fires and
+// names the slug — and following that advice produces a duplicate slug and a
+// broken image path. Report the actual cause instead.
+const titles = recipes.map((r) => r.title);
+const dupeTitles = titles.filter((x, i) => x && titles.indexOf(x) !== i);
+if (dupeTitles.length) {
+  fail(p0, "(global)", `duplicate titles: ${[...new Set(dupeTitles)].join(", ")} — rename the title, not the slug`);
+}
+
 // The coverage contract: every region x category cell must be non-empty, or a
 // filter combination reachable in two clicks returns nothing.
 const matrix = {};
