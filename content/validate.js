@@ -149,6 +149,17 @@ for (const r of recipes) {
     if (t !== String(t).toLowerCase()) fail(p2, s, `tag not lowercase: "${t}"`);
   });
 
+  // Numbers must be numbers. "20" > 0 is true and typeof "4.8" === "number" is
+  // false, so a string-typed field slipped past the range checks below AND
+  // skipped the rating band entirely. That is not hypothetical: INTEGRATION.md
+  // warns the site may store times as strings, and the adapter's own worked
+  // example (`prep: `${r.prepMinutes} min``) produces exactly that.
+  for (const f of ["prepMinutes", "cookMinutes", "serves", "editorialRating"]) {
+    if (r[f] !== undefined && typeof r[f] !== "number") {
+      fail(p1, s, `${f} is ${typeof r[f]} "${r[f]}", not a number — range checks cannot run on it`);
+    }
+  }
+
   if (typeof r.editorialRating === "number") {
     if (r.editorialRating < 4.0 || r.editorialRating > 5.0) {
       fail(p1, s, `editorialRating out of band: ${r.editorialRating} (want 4.0-5.0)`);

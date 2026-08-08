@@ -81,6 +81,36 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// -------------------------------- GATE-10: numbers must actually be numbers
+test("GATE-10: a string-typed prepMinutes is caught", () => {
+  const r = clone();
+  r[0].prepMinutes = "20";
+  assert.match(all(validate(r)), /prepMinutes is string/);
+});
+
+test("GATE-10: a string-typed rating no longer skips the band check", () => {
+  const r = clone();
+  r[0].editorialRating = "9.9";
+  const out = all(validate(r));
+  assert.match(out, /editorialRating is string/);
+});
+
+test("GATE-10: a pre-formatted time string is caught", () => {
+  // INTEGRATION.md warns the site may store `"55 min"`; the adapter's worked
+  // example produces exactly this.
+  const r = clone();
+  r[0].prepMinutes = "55 min";
+  assert.match(all(validate(r)), /prepMinutes is string/);
+});
+
+test("GATE-10: the real corpus is numeric throughout", () => {
+  for (const r of EXPANSION_RECIPES) {
+    for (const f of ["prepMinutes", "cookMinutes", "serves", "editorialRating"]) {
+      assert.equal(typeof r[f], "number", `${r.slug}.${f}`);
+    }
+  }
+});
+
 // ------------------------------- GATE-09: the gate must name the real cause
 test("GATE-09: a duplicate title is reported as a duplicate title", () => {
   const r = clone();
