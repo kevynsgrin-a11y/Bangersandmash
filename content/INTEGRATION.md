@@ -39,7 +39,10 @@ trajectory fragments — tool output quoting field names, filter behaviour, and 
 ```bash
 # 1. Open the real file and read ONE existing recipe object in full.
 #    That single object is the contract. Everything below adapts to it.
-head -80 /app/frontend/src/lib/mockData.js
+#    Print from the first recipe to the end of that object — a recipe in this
+#    module runs to 67 lines, so a fixed `head -80` truncates it after the
+#    file's own preamble and you reconcile against half a contract.
+awk '/slug:/{f=1} f{print; if (/^  \},?$/) exit}' /app/frontend/src/lib/mockData.js
 ```
 
 Then run the adapter in `recipes-expansion.js` (bottom of the file) with the real key names filled
