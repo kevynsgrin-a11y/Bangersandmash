@@ -16,7 +16,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { validate, words, slugify, collisions } from "./validate.js";
+import { validate, words, slugify, collisions, report } from "./validate.js";
 import { EXPANSION_RECIPES, toSiteShape } from "./recipes-expansion.js";
 
 const clone = () => structuredClone(EXPANSION_RECIPES);
@@ -79,6 +79,139 @@ test("an unrecognised region is a P0", () => {
   const r = clone();
   r[0].region = "Cornwall";
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
+});
+
+// ------------------------------------------------------------------------
+// TEST-01 — every rule must be individually killable.
+//
+// A mutation sweep over the 30 fail() callsites found 19 that could be deleted
+// outright with the suite still green: the tests covered the rules this audit
+// touched and nothing else. Each test below neutralises exactly one rule by
+// tripping it, so deleting that rule turns this file red.
+// ------------------------------------------------------------------------
+
+const trips = (mutate, pattern) => {
+  const r = clone();
+  mutate(r[0], r);
+  assert.match(all(validate(r)), pattern);
+};
+
+test("RULE: a non-array corpus is fatal, not a crash", () => {
+  const r = validate("not an array");
+  assert.equal(r.fatal, true);
+  assert.match(r.p0.join("\n"), /not an array/);
+});
+
+test("RULE: category must be one of the seven", () => {
+  trips((x) => { x.category = "Sandwiches"; }, /category not in the seven/);
+});
+
+test("RULE: difficulty must be recognised", () => {
+  trips((x) => { x.difficulty = "Trivial"; }, /difficulty not recognised/);
+});
+
+test("RULE: ingredient count stays within 7-14", () => {
+  trips((x) => { x.ingredients = x.ingredients.slice(0, 3); }, /ingredients out of range/);
+  trips((x) => {
+    x.ingredients = Array.from({ length: 20 }, () => ({ quantity: "1", unit: "g", item: "salt" }));
+  }, /ingredients out of range/);
+});
+
+test("RULE: an ingredient must be an object", () => {
+  trips((x) => { x.ingredients[0] = "500g potatoes"; }, /is not an object/);
+});
+
+test("RULE: an ingredient must have an item", () => {
+  trips((x) => { delete x.ingredients[0].item; }, /has no item/);
+});
+
+test("RULE: an ingredient must have a quantity", () => {
+  trips((x) => { delete x.ingredients[0].quantity; }, /has no quantity/);
+});
+
+test("RULE: method step count stays within 4-6", () => {
+  trips((x) => { x.method = x.method.slice(0, 2); }, /method steps out of range/);
+  trips((x) => { x.method = [...x.method, ...x.method, ...x.method]; }, /method steps out of range/);
+});
+
+test("RULE: a method step under 12 words is too thin to follow", () => {
+  trips((x) => { x.method[0] = "Cook it."; }, /too thin to follow/);
+});
+
+test("RULE: story stays within 45-80 words", () => {
+  trips((x) => { x.story = "Too short."; }, /story is 2 words/);
+  trips((x) => { x.story = "word ".repeat(120).trim(); }, /story is 120 words/);
+});
+
+test("RULE: cooksNote must carry a real tip", () => {
+  trips((x) => { x.cooksNote = "Nice."; }, /too short to carry a real tip/);
+});
+
+test("RULE: imagePrompt stays within 55-130 words", () => {
+  trips((x) => { x.imagePrompt = "a plate"; }, /imagePrompt is 2 words/);
+  trips((x) => { x.imagePrompt = "word ".repeat(200).trim(); }, /imagePrompt is 200 words/);
+});
+
+test("RULE: tag count stays within 3-5", () => {
+  trips((x) => { x.tags = ["one"]; }, /tags out of range/);
+  trips((x) => { x.tags = ["a", "b", "c", "d", "e", "f"]; }, /tags out of range/);
+});
+
+test("RULE: tags must be lowercase", () => {
+  trips((x) => { x.tags = ["Scotland", "baking", "teatime"]; }, /tag not lowercase/);
+});
+
+test("RULE: editorialRating stays within 4.0-5.0", () => {
+  trips((x) => { x.editorialRating = 3.2; }, /editorialRating out of band/);
+  trips((x) => { x.editorialRating = 5.4; }, /editorialRating out of band/);
+});
+
+test("RULE: prepMinutes must be positive", () => {
+  trips((x) => { x.prepMinutes = 0; }, /prepMinutes not positive/);
+});
+
+test("RULE: cookMinutes must not be negative", () => {
+  trips((x) => { x.cookMinutes = -5; }, /cookMinutes invalid/);
+});
+
+test("RULE: serves must be positive", () => {
+  trips((x) => { x.serves = 0; }, /serves not positive/);
+});
+
+test("RULE: slug must derive from title", () => {
+  trips((x) => { x.slug = "something-else"; x.image = "/generated/something-else.jpg"; },
+    /slug does not derive from title/);
+});
+
+// ---------------- TEST-05: the reporting path a human actually reads
+test("TEST-05: report() renders the matrix, the counts and a verdict", () => {
+  const out = [];
+  const log = console.log;
+  console.log = (...a) => out.push(a.join(" "));
+  try {
+    report(EXPANSION_RECIPES, validate(EXPANSION_RECIPES));
+  } finally {
+    console.log = log;
+  }
+  const text = out.join("\n");
+  assert.match(text, /Region x category coverage/);
+  assert.match(text, /Scotland/);
+  assert.match(text, /32 recipes validated/);
+  assert.match(text, /Verdict: PASS \(P0 0/);
+});
+
+test("TEST-05: report() says FAIL when there is a P0", () => {
+  const r = clone();
+  delete r[0].story;
+  const out = [];
+  const log = console.log;
+  console.log = (...a) => out.push(a.join(" "));
+  try {
+    report(r, validate(r));
+  } finally {
+    console.log = log;
+  }
+  assert.match(out.join("\n"), /Verdict: FAIL/);
 });
 
 // ---------------------- DOC-02: documented commands must be runnable as-is
