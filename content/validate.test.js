@@ -211,6 +211,32 @@ test("ADAPTER: toSiteShape preserves slug, title and image verbatim", () => {
   });
 });
 
+test("ADAPTER-01: toSiteShape carries provenance through to the page", () => {
+  const out = toSiteShape();
+  EXPANSION_RECIPES.forEach((src, i) => {
+    assert.equal(
+      out[i].authenticityNote,
+      src.authenticityNote,
+      `${src.slug} lost its authenticityNote in the adapter`
+    );
+  });
+});
+
+test("ADAPTER-01: no prose field is silently dropped by the adapter", () => {
+  // imagePrompt is a build input, not page content, so it is the only prose
+  // field the adapter is entitled to drop.
+  const src = new Set();
+  EXPANSION_RECIPES.forEach((r) => Object.keys(r).forEach((k) => src.add(k)));
+  const out = new Set();
+  toSiteShape().forEach((r) => Object.keys(r).forEach((k) => out.add(k)));
+
+  const renamed = { prepMinutes: "prep", cookMinutes: "cook", cooksNote: "notes", editorialRating: "rating" };
+  const lost = [...src].filter(
+    (k) => !out.has(k) && !(k in renamed) && k !== "imagePrompt"
+  );
+  assert.deepEqual(lost, [], `adapter drops: ${lost.join(", ")}`);
+});
+
 test("ADAPTER: editorialRating survives the mapping without being altered", () => {
   const out = toSiteShape();
   EXPANSION_RECIPES.forEach((src, i) => {

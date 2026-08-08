@@ -2831,6 +2831,14 @@ export const toSiteShape = (recipes = EXPANSION_RECIPES) =>
     method: r.method,
     notes: r.cooksNote,
     image: r.image,
+
+    // Provenance. CONTENT_ADDITION_PLAN.md section 5 requires this on every
+    // recipe and calls it the audit trail: "flagged uncertainty is
+    // professional, fabricated certainty is not". Dropping it here silently
+    // discarded all 32 notes on the way to the page. Carried through so the
+    // front end can render it; where it renders is a front-end decision this
+    // module cannot make.
+    authenticityNote: r.authenticityNote,
   }));
 
 export default EXPANSION_RECIPES;
