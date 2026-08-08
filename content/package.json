@@ -1,5 +1,9 @@
 {
   "type": "module",
   "private": true,
-  "description": "Phase 1 content expansion for English Heritage Cookbook"
+  "description": "Phase 1 content expansion for English Heritage Cookbook",
+  "scripts": {
+    "test": "node --test validate.test.js",
+    "validate": "node validate.js"
+  }
 }

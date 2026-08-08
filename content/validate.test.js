@@ -1,7 +1,10 @@
 /**
  * Tests for the validation harness itself.
  *
- *   node --test content/
+ *   npm test --prefix content       # or: node --test content/validate.test.js
+ *
+ * Not `node --test content/` — Node resolves the bare directory as a module,
+ * reports one failed test and exits 1 without running anything.
  *
  * The harness guards recipes-expansion.js; nothing guarded the harness. Every
  * test here works by mutating a deep clone of the real corpus and asserting the
