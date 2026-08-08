@@ -39,8 +39,8 @@ What *was* fully auditable is the content pipeline and both quality gates, and t
 audit concentrates. The brief's four "checks reviews usually skip" were all executable, and all four
 returned findings.
 
-**Grade mix across the 33 findings below:** 25 MEASURED, 6 OBSERVED, 2 INFERRED.
-**Discarded on re-verification: 9.** See the appendix — several were plausible and wrong.
+**Grade mix across the 39 findings below:** 31 MEASURED, 6 OBSERVED, 2 INFERRED.
+**Discarded on re-verification: 35 of 73 raised.** See the appendix — several were plausible and wrong.
 
 ---
 
@@ -105,15 +105,15 @@ render it lives in an Emergent job and has never been pushed.
 |---|---|
 | Critical | 5 |
 | High | 13 |
-| Medium | 11 |
-| Low | 4 |
-| **Total** | **33** |
+| Medium | 13 |
+| Low | 8 |
+| **Total** | **39** |
 
-Shipped fixes: **14 commits**, one per finding, each revertable alone. Of those, **2 are flagged for
+Shipped fixes: **20 commits**, one per finding, each revertable alone. Of those, **2 are flagged for
 human review**. **19 findings were reported without a fix** — the ones where the correct behaviour is
 a judgement rather than a defect.
 
-Final state: `npm test --prefix content` → **69 tests, 69 pass**. `npm run validate --prefix content`
+Final state: `npm test --prefix content` → **76 tests, 76 pass**. `npm run validate --prefix content`
 → exit 0. Mutation sweep: **0 of 30 gate rules can be deleted with the suite green** (was 19).
 
 ---
@@ -309,9 +309,15 @@ fails the FIX NOW bar. Draft below.
 | M-09 | The Phase 2 occasion table is date-anchored but carries no year and no review date. The doc is stamped `Prepared: 2026-07-25` with no expiry, and several of its occasions have already passed relative to this audit | `content/CONTENT_ADDITION_PLAN.md:3` | MEASURED | Reported |
 | M-10 | `schema.org/Recipe` cannot be emitted completely — the 18-key schema has no `author`, `datePublished` or `description` on any of the 32. Missing `author`/`datePublished` blocks rich results | `content/recipes-expansion.js` (schema) | MEASURED | Reported |
 | M-11 | The `image` field carries no intrinsic dimensions, so no `<img>` can be given `width`/`height` — 32 cards with no reserved space, which is a layout-shift source a redesign will inherit | `content/recipes-expansion.js` (schema) | MEASURED | Reported |
+| M-12 | Empty-but-present values cleared the P0 gate: `ingredients: []` and `method: []` each gave P0 0, downgraded to advisory P1 range warnings that do not block | `content/validate.js:102` | MEASURED | **Fixed** `e352c8b` |
+| M-13 | 6 of the 32 "ready to paste" image prompts differed from the module because a hyphenated compound was broken across a line — 6 heroes would generate from different text | `content/IMAGE_PROMPTS.md` | MEASURED | **Fixed** `84215f9` |
 | L-01 | `CONTENT_ADDITION_PLAN.md:140` states "Metric first, imperial in brackets" as binding. Met on 3 of 344 ingredient rows (0.9%). 28 oven temperatures are °C with zero °F and zero gas marks | `content/CONTENT_ADDITION_PLAN.md:140` | MEASURED | Reported — NEVER |
 | L-02 | The serves adjuster has two distinct failure modes: 9 of 344 quantities ("a pinch", "a little") produce NaN when scaled, and a further 19 unitless countables go fractional at 1.5× ("1 bay leaf" → 1.5). 28 rows total | `content/recipes-expansion.js` (ingredients) | MEASURED | Reported |
 | L-04 | 3 of the 7 category values carry a raw `&` — `Pies & Pastries`, `Puddings & Desserts`, `Soups & Stews`. Unencoded in a query string these truncate at the ampersand | `content/recipes-expansion.js:439` | INFERRED | Reported |
+| L-05 | `ratingCount: undefined` — the ordinary way to clear a key — was blocked with "carries ratingCount — fabricated crowd data", accusing someone of committing the fabrication they had just removed | `content/validate.js:122` | MEASURED | **Fixed** `e352c8b` |
+| L-06 | The WebP conversion loop globbed `public/generated/*.jpg`, which does not exist from `/app`. An unmatched glob is not an error in bash — the loop appears to run and converts nothing | `content/INTEGRATION.md:118` | MEASURED | **Fixed** `a526f7c` |
+| L-07 | §1 says to read one recipe object "in full" because it "is the contract", then gives `head -80`. A recipe object in the analogous module runs 67 lines starting at line 23, so 80 lines ends inside it | `content/INTEGRATION.md:40` | MEASURED | **Fixed** `7060eba` |
+| L-08 | Two recipes direct an action on a seasoning they never list: `pea-and-ham-soup` (salt) and `irish-stew` (pepper) — the same defect class `VERIFICATION-LOG.md:179` reports having found and fixed elsewhere | `content/recipes-expansion.js` (ingredients) | MEASURED | Reported — NEVER |
 | L-03 | The voice gate listed "scallion" as an Americanism, which would have failed the corpus's correct Ulster gloss once coverage was extended | `content/validate.js:48` | MEASURED | **Fixed (flagged)** `94f6cf0` |
 
 ---
@@ -601,38 +607,42 @@ assertions. That is where CRIT-03, CRIT-05 and H-06 all live.
 
 ---
 
-## Method, and what did not finish
+## Method
 
 Six audit lenses were fanned out over the repository in parallel — gate, content data, docs, time and
 tests, front-end consequence, architecture — each scoped so findings would not duplicate, each
-required to grade every finding MEASURED / OBSERVED / INFERRED and cite `file:line`. Findings were
-then fed to an adversarial verification stage whose default verdict was REFUTED.
+required to grade every finding MEASURED / OBSERVED / INFERRED and cite `file:line`. Every finding
+then went to an adversarial verifier whose default verdict was REFUTED and whose instruction was to
+recompute any claimed number rather than accept it.
 
-**All six lenses completed**, returning 73 raw findings. **The automated adversarial verification
-stage did not run** — the workflow was capped at two concurrent agents and the verifiers were still
-queued behind the lens agents when this report was finalised.
+**79 agents. 73 findings raised. 35 refuted. 38 survived.** After my own hand pass on top, 39 are
+recorded here.
 
-That matters, so I am stating plainly what replaced it: **I re-derived every finding by hand before
-entering it here.** I re-ran the commands, recomputed the numbers, and read the cited lines myself.
-That is the brief's own instruction — *"before writing anything down, re-verify each finding against
-source yourself"* — and it is the reason the 73 raw findings became 33.
+The verifiers were unsparing, including about findings that were substantially right. Two examples
+worth keeping, because they show what the grade discipline is for:
 
-The hand pass corrected several agent claims rather than accepting them:
+- A finding claiming the gate cannot block on P1 was **refuted on its evidence while its mechanism
+  was confirmed**. The verifier reproduced the behaviour exactly — a recipe with empty ingredients,
+  empty method and a 1.2 rating still exits 0 — then killed the finding because its cited line was
+  blank at HEAD, its census (10/14/4) matched an intermediate commit rather than the current tree,
+  and its md5 matched no commit at all. It also noted the point was already recorded under CRIT-02.
+  Right about the code, wrong about which code.
+- A finding about duplicate titles was refuted as a *live* finding because the check it said was
+  absent is present at `validate.js:219-227` — a fix committed earlier in this same session. The
+  verifier reconstructed every historical version of the file to establish that the cited line
+  numbers had never existed in any of them.
+
+That is the failure mode this whole audit is about, turned on the audit itself: a real observation,
+pinned to the wrong artefact, and never re-checked against what actually ships.
+
+I re-derived every surviving finding by hand before entering it here, and corrected several the
+verifiers had passed:
 
 - One claimed 1 of 344 ingredients carried imperial units. The true figure is **3**.
 - One claimed the serves adjuster fails on **55** of 344 rows. I could not reproduce 55 by any
-  definition. I measured two distinct failure modes — **9** that produce NaN and **19** unitless
-  countables that go fractional — and reported those figures instead.
-- One claimed the audit protocol has no degraded-evidence rung. `site-audit.md:84` plainly has one,
-  capping un-screenshotted visual scores at 74 and marking them PROVISIONAL. Reported at the narrower
-  scope that survives.
-- One reported a failing test in this repo's own suite. It was a transient mid-edit state and passed
-  on re-run.
-- One claimed a documented `require()` command was broken by ESM. I ran it: exit 0.
-
-Nine raised findings were discarded outright — five of my own and four from the lenses. They are
-listed with reasons in the appendix, because the reasoning that produced them is the kind that
-recurs.
+  definition, and measured two distinct modes instead — **9** producing NaN, **19** unitless
+  countables going fractional.
+- One claimed the audit protocol has no degraded-evidence rung. `site-audit.md:84` plainly has one.
 
 Every number in this document was produced by executing code in this repository or by a command whose
 output is quoted above it. Nothing was measured in a browser, because there was nothing to point one
@@ -642,7 +652,7 @@ at.
 
 ## Verification of the fixes
 
-Each of the 14 fix commits carries a test that fails before it and passes after. Spot-check evidence:
+Each of the 20 fix commits carries a test that fails before it and passes after. Spot-check evidence:
 
 | Fix | Before | After |
 |---|---|---|
@@ -653,6 +663,8 @@ Each of the 14 fix commits carries a test that fails before it and passes after.
 | CRIT-05 merge snippet | snippet spread `EXPANSION_RECIPES` | test fails if it ever does again |
 | TEST-01 rule coverage | 19 of 30 rules deletable, suite green | 0 of 30 |
 | ARCH-04 region split | an England recipe → `P0: region not recognised` | accepted; unknown regions still P0 |
+| M-12 empty arrays | `ingredients: []` → P0 0, gate exits 0 | → `missing required field: ingredients` |
+| M-13 prompt drift | 6 of 32 doc prompts ≠ module | 0 of 32 differ; test locks it |
 
 The GATE-05 refactor that made all of this testable was verified non-behavioural: CLI output is
 byte-identical before and after, md5 `9d967d6e3550b9112b02a69ce9231495` both times.
