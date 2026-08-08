@@ -71,8 +71,15 @@ for (const r of recipes) {
     "slug", "title", "region", "category", "difficulty", "prepMinutes",
     "cookMinutes", "serves", "tags", "story", "ingredients", "method",
     "cooksNote", "editorialRating", "imagePrompt", "authenticityNote",
+    "image",
   ]) {
     if (r[f] === undefined || r[f] === null || r[f] === "") fail(p0, s, `missing required field: ${f}`);
+  }
+
+  // The hero is the site's signature element and resolves purely by slug. A
+  // path that drifts from its slug 404s in the grid with no other symptom.
+  if (r.image && s && r.image !== `/generated/${s}.jpg`) {
+    fail(p0, s, `image path does not match slug (expected "/generated/${s}.jpg", got "${r.image}")`);
   }
 
   if (!REGIONS.includes(r.region)) fail(p0, s, `region not recognised: "${r.region}"`);

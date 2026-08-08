@@ -78,6 +78,33 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// --------------------------------------------------------- GATE-03: images
+test("GATE-03: a recipe with no image path is a P0", () => {
+  const r = clone();
+  delete r[0].image;
+  assert.match(validate(r).p0.join("\n"), /missing required field: image/);
+});
+
+test("GATE-03: every hero image resolves at /generated/<slug>.jpg", () => {
+  for (const r of EXPANSION_RECIPES) {
+    assert.equal(r.image, `/generated/${r.slug}.jpg`, `${r.slug} image path drifted`);
+  }
+});
+
+test("GATE-03: an image path that does not match its slug is a P0", () => {
+  const r = clone();
+  r[0].image = "/generated/wrong-name.jpg";
+  assert.match(validate(r).p0.join("\n"), /image path does not match slug/);
+});
+
+test("GATE-03: stripping every image fails the gate, not passes it", () => {
+  const r = clone().map((x) => {
+    const { image, ...rest } = x;
+    return rest;
+  });
+  assert.equal(validate(r).p0.length, 32);
+});
+
 // ------------------------------------------ GATE-04: message matches rule
 test("GATE-04: the imagePrompt message states the band it enforces", () => {
   const src = readFileSync(
