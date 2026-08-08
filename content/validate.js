@@ -102,7 +102,7 @@ for (const r of recipes) {
   if (words(r.cooksNote) < 10) fail(p1, s, "cooksNote is too short to carry a real tip");
 
   const ip = words(r.imagePrompt);
-  if (ip < 55 || ip > 130) fail(p2, s, `imagePrompt is ${ip} words (want 60-110)`);
+  if (ip < 55 || ip > 130) fail(p2, s, `imagePrompt is ${ip} words (want 55-130)`);
 
   const tags = r.tags || [];
   if (tags.length < 3 || tags.length > 5) fail(p2, s, `tags out of range: ${tags.length} (want 3-5)`);

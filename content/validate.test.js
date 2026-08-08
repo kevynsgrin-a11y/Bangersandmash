@@ -10,6 +10,9 @@
 
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
 import { validate, words, slugify } from "./validate.js";
 import { EXPANSION_RECIPES, toSiteShape } from "./recipes-expansion.js";
 
@@ -73,6 +76,24 @@ test("an unrecognised region is a P0", () => {
   const r = clone();
   r[0].region = "Cornwall";
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
+});
+
+// ------------------------------------------ GATE-04: message matches rule
+test("GATE-04: the imagePrompt message states the band it enforces", () => {
+  const src = readFileSync(
+    fileURLToPath(new URL("./validate.js", import.meta.url)),
+    "utf8"
+  );
+  const line = src.split("\n").find((l) => l.includes("imagePrompt is"));
+  assert.ok(line, "imagePrompt message present");
+  const enforced = src.match(/ip < (\d+) \|\| ip > (\d+)/);
+  assert.ok(enforced, "imagePrompt band present");
+  const [, lo, hi] = enforced;
+  assert.match(
+    line,
+    new RegExp(`want ${lo}-${hi}`),
+    `message must state the enforced band ${lo}-${hi}`
+  );
 });
 
 // ---------------------------------------- ADAPTER: the untested merge path
