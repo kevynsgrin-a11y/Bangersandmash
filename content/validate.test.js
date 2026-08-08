@@ -81,6 +81,45 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// ----------------- GATE-11: empty-but-present is missing, not present
+test("GATE-11: an empty ingredients array is a missing required field", () => {
+  const r = clone();
+  r[0].ingredients = [];
+  assert.match(validate(r).p0.join("\n"), /missing required field: ingredients/);
+});
+
+test("GATE-11: empty method and tags arrays are P0s too", () => {
+  for (const f of ["method", "tags"]) {
+    const r = clone();
+    r[0][f] = [];
+    assert.match(validate(r).p0.join("\n"), new RegExp(`missing required field: ${f}`));
+  }
+});
+
+test("GATE-11: a recipe with no ingredients cannot clear the P0 gate", () => {
+  // Before: ingredients: [] gave P0 0, downgraded to an advisory P1 range
+  // warning, and the gate exits 0 on P1.
+  const r = clone();
+  r[0].ingredients = [];
+  r[0].method = [];
+  assert.ok(validate(r).p0.length >= 2);
+});
+
+// ------------------- GATE-12: name the ratingCount case accurately
+test("GATE-12: an explicitly-cleared ratingCount is blocked but not accused", () => {
+  const r = clone();
+  r[0].ratingCount = undefined;
+  const out = validate(r).p0.join("\n");
+  assert.match(out, /declares a ratingCount key with no value/);
+  assert.doesNotMatch(out, /fabricated crowd data/);
+});
+
+test("GATE-12: a real ratingCount value is still called fabricated crowd data", () => {
+  const r = clone();
+  r[0].ratingCount = 127;
+  assert.match(validate(r).p0.join("\n"), /carries ratingCount — fabricated crowd data/);
+});
+
 // ------------- ARCH-04: recognised regions vs regions that must be covered
 test("ARCH-04: an England recipe is a valid region, not an unknown one", () => {
   // England has 18 recipes live. This module adds none, but adding one in a

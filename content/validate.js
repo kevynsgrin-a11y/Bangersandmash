@@ -117,7 +117,12 @@ for (const r of recipes) {
     "cooksNote", "editorialRating", "imagePrompt", "authenticityNote",
     "image",
   ]) {
-    if (r[f] === undefined || r[f] === null || r[f] === "") fail(p0, s, `missing required field: ${f}`);
+    // An empty array is not "present" — it supplies nothing. Without this, a
+    // recipe with ingredients: [] and method: [] clears the P0 gate entirely
+    // and is downgraded to a pair of advisory P1 range warnings.
+    const v = r[f];
+    const empty = v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0);
+    if (empty) fail(p0, s, `missing required field: ${f}`);
   }
 
   // The hero is the site's signature element and resolves purely by slug. A
@@ -131,7 +136,14 @@ for (const r of recipes) {
   if (!DIFFICULTIES.includes(r.difficulty)) fail(p1, s, `difficulty not recognised: "${r.difficulty}"`);
 
   // Fabricated crowd data must not reappear. This is the §4 defect.
-  if ("ratingCount" in r) fail(p0, s, "carries ratingCount — fabricated crowd data, see plan §4");
+  // Still blocked when the key is present but valueless — a key with no value
+  // today is a key with a value after the next merge. But say which it is,
+  // rather than accusing someone of fabricating data they explicitly cleared.
+  if ("ratingCount" in r) {
+    fail(p0, s, r.ratingCount === undefined
+      ? "declares a ratingCount key with no value — remove the key entirely, see plan §4"
+      : "carries ratingCount — fabricated crowd data, see plan §4");
+  }
 
   const ing = r.ingredients || [];
   if (ing.length < 7 || ing.length > 14) fail(p1, s, `ingredients out of range: ${ing.length} (want 7-14)`);
