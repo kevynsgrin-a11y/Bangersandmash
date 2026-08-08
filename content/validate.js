@@ -147,8 +147,19 @@ for (const r of recipes) {
     fail(p2, s, `slug does not derive from title (expected "${slugify(r.title)}")`);
   }
 
-  // Voice enforcement across all prose fields.
-  const prose = `${r.story} ${r.cooksNote} ${(r.method || []).join(" ")}`.toLowerCase();
+  // Voice enforcement across every field a reader actually sees. authenticityNote
+  // is the provenance audit trail the plan calls non-negotiable (§5) and is the
+  // longest prose field on most recipes; leaving it out meant the house voice was
+  // unenforced on roughly a third of the words that ship.
+  const prose = [
+    r.story,
+    r.cooksNote,
+    r.authenticityNote,
+    r.title,
+    ...(r.tags || []),
+    ...(r.method || []),
+    ...(r.ingredients || []).map((i) => (i && i.item) || ""),
+  ].join(" ").toLowerCase();
   BANNED.forEach((b) => {
     if (prose.includes(b)) fail(p1, s, `banned phrase in prose: "${b}"`);
   });

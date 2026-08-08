@@ -105,6 +105,45 @@ test("GATE-03: stripping every image fails the gate, not passes it", () => {
   assert.equal(validate(r).p0.length, 32);
 });
 
+// ------------------------------------------------- GATE-02: voice coverage
+test("GATE-02: an American spelling in authenticityNote is caught", () => {
+  const r = clone();
+  r[0].authenticityNote += " The flavor is wonderful.";
+  assert.match(all(validate(r)), /flavor/);
+});
+
+test("GATE-02: a banned phrase in authenticityNote is caught", () => {
+  const r = clone();
+  r[0].authenticityNote += " Truly the ultimate version.";
+  assert.match(all(validate(r)), /the ultimate/);
+});
+
+test("GATE-02: a banned phrase in an ingredient item is caught", () => {
+  const r = clone();
+  r[0].ingredients[0].item = "delicious potatoes, peeled";
+  assert.match(all(validate(r)), /delicious/);
+});
+
+test("GATE-02: a banned phrase in a title is caught", () => {
+  const r = clone();
+  r[0].title = "The Ultimate Tattie Scones";
+  assert.match(all(validate(r)), /the ultimate/);
+});
+
+test("GATE-02: a banned phrase in a tag is caught", () => {
+  const r = clone();
+  r[0].tags = [...r[0].tags.slice(1), "crowd-pleaser"];
+  assert.match(all(validate(r)), /crowd-pleaser/);
+});
+
+test("GATE-02: the fields the original check covered still bite", () => {
+  for (const field of ["story", "cooksNote"]) {
+    const r = clone();
+    r[0][field] += " Simply delicious.";
+    assert.match(all(validate(r)), /delicious/, `${field} should be covered`);
+  }
+});
+
 // ---------------------------------------- GATE-06: Ulster is not American
 test("GATE-06: American spellings are always caught", () => {
   for (const bad of ["flavor", "color", "caramelize"]) {
