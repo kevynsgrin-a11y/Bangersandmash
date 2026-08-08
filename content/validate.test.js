@@ -81,6 +81,34 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// ------------- ARCH-04: recognised regions vs regions that must be covered
+test("ARCH-04: an England recipe is a valid region, not an unknown one", () => {
+  // England has 18 recipes live. This module adds none, but adding one in a
+  // later phase must not be rejected as an unrecognised region.
+  const r = clone();
+  r.push({
+    ...r[0],
+    slug: "toad-in-the-hole",
+    title: "Toad in the Hole",
+    region: "England",
+    image: "/generated/toad-in-the-hole.jpg",
+  });
+  assert.doesNotMatch(validate(r).p0.join("\n"), /region not recognised/);
+});
+
+test("ARCH-04: England is still not required to fill all seven cells here", () => {
+  // Coverage is this module's contract, and this module builds three regions.
+  const out = validate(EXPANSION_RECIPES);
+  assert.doesNotMatch(out.p0.join("\n"), /England x/);
+  assert.equal(out.p0.length, 0);
+});
+
+test("ARCH-04: a genuinely unknown region is still a P0", () => {
+  const r = clone();
+  r[0].region = "Cornwall";
+  assert.match(validate(r).p0.join("\n"), /region not recognised: "Cornwall"/);
+});
+
 // ------------------------------------------------------------------------
 // TEST-01 — every rule must be individually killable.
 //

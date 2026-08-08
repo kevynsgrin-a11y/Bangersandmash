@@ -20,7 +20,19 @@ const CATEGORIES = [
   "Teatime",
   "Soups & Stews",
 ];
-const REGIONS = ["Scotland", "Wales", "Northern Ireland"];
+// Two different questions, deliberately two different lists.
+//
+// VALID_REGIONS answers "is this a region of this site?" — England is, with 18
+// recipes already live, even though this module adds none.
+// COVERAGE_REGIONS answers "which regions must this module fill completely?" —
+// only the three it exists to build out.
+//
+// Collapsing these into one list means adding an English recipe in a later
+// phase is rejected as an unknown region, and adding a new coverage region
+// demands all 7 categories in the same commit.
+const VALID_REGIONS = ["England", "Scotland", "Wales", "Northern Ireland"];
+const COVERAGE_REGIONS = ["Scotland", "Wales", "Northern Ireland"];
+const REGIONS = COVERAGE_REGIONS;
 const DIFFICULTIES = ["Easy", "Intermediate", "Advanced"];
 
 // Words banned by the house voice spec. Presence is a P1 — it means the voice
@@ -114,7 +126,7 @@ for (const r of recipes) {
     fail(p0, s, `image path does not match slug (expected "/generated/${s}.jpg", got "${r.image}")`);
   }
 
-  if (!REGIONS.includes(r.region)) fail(p0, s, `region not recognised: "${r.region}"`);
+  if (!VALID_REGIONS.includes(r.region)) fail(p0, s, `region not recognised: "${r.region}"`);
   if (!CATEGORIES.includes(r.category)) fail(p0, s, `category not in the seven: "${r.category}"`);
   if (!DIFFICULTIES.includes(r.difficulty)) fail(p1, s, `difficulty not recognised: "${r.difficulty}"`);
 
