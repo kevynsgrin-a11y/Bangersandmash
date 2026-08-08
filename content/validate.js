@@ -37,26 +37,34 @@ const AMERICANISMS = [
   ["scallion", "spring onion"], ["confectioners sugar", "icing sugar"],
 ];
 
-const p0 = [];
-const p1 = [];
-const p2 = [];
-
-const fail = (bucket, slug, msg) => bucket.push(`${slug || "(no slug)"} — ${msg}`);
-const words = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
-const slugify = (s) =>
+export const words = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
+export const slugify = (s) =>
   String(s || "")
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-if (!Array.isArray(EXPANSION_RECIPES)) {
-  console.error("FATAL: EXPANSION_RECIPES is not an array");
-  process.exit(1);
-}
+/**
+ * Run every check against a recipe array and return the findings.
+ *
+ * Pure: no console output, no process.exit. The CLI block at the bottom of this
+ * file renders the result. Split out so the harness itself can be tested — see
+ * validate.test.js.
+ */
+export function validate(recipes) {
+  const p0 = [];
+  const p1 = [];
+  const p2 = [];
+  const fail = (bucket, slug, msg) => bucket.push(`${slug || "(no slug)"} — ${msg}`);
+
+  if (!Array.isArray(recipes)) {
+    fail(p0, "(global)", "EXPANSION_RECIPES is not an array");
+    return { p0, p1, p2, matrix: {}, fatal: true };
+  }
 
 // ---------------------------------------------------------------- per-recipe
-for (const r of EXPANSION_RECIPES) {
+for (const r of recipes) {
   const s = r.slug;
 
   for (const f of [
@@ -127,7 +135,7 @@ for (const r of EXPANSION_RECIPES) {
 }
 
 // ------------------------------------------------------------------ global
-const slugs = EXPANSION_RECIPES.map((r) => r.slug);
+const slugs = recipes.map((r) => r.slug);
 const dupes = slugs.filter((x, i) => slugs.indexOf(x) !== i);
 if (dupes.length) fail(p0, "(global)", `duplicate slugs: ${[...new Set(dupes)].join(", ")}`);
 
@@ -137,22 +145,11 @@ const matrix = {};
 for (const region of REGIONS) {
   matrix[region] = {};
   for (const cat of CATEGORIES) {
-    matrix[region][cat] = EXPANSION_RECIPES.filter(
+    matrix[region][cat] = recipes.filter(
       (r) => r.region === region && r.category === cat
     ).length;
   }
 }
-
-console.log("\nRegion x category coverage\n");
-const pad = (s, n) => String(s).padEnd(n);
-console.log(pad("", 22) + REGIONS.map((r) => pad(r, 18)).join(""));
-for (const cat of CATEGORIES) {
-  const row = REGIONS.map((r) => pad(matrix[r][cat] || "—", 18)).join("");
-  console.log(pad(cat, 22) + row);
-}
-console.log(pad("TOTAL", 22) + REGIONS.map((r) =>
-  pad(EXPANSION_RECIPES.filter((x) => x.region === r).length, 18)
-).join(""));
 
 for (const region of REGIONS) {
   for (const cat of CATEGORIES) {
@@ -160,24 +157,53 @@ for (const region of REGIONS) {
   }
 }
 
-// ------------------------------------------------------------------ report
-const section = (name, arr) => {
-  if (!arr.length) return;
-  console.log(`\n${name} (${arr.length})`);
-  arr.forEach((x) => console.log(`  - ${x}`));
-};
-
-console.log(`\n${EXPANSION_RECIPES.length} recipes validated`);
-section("P0 — SHIP-BLOCKER", p0);
-section("P1 — MAJOR", p1);
-section("P2 — MINOR", p2);
-
-if (!p0.length && !p1.length && !p2.length) {
-  console.log("\nClean — no findings.");
+  return { p0, p1, p2, matrix, fatal: false };
 }
-console.log(
-  `\nVerdict: ${p0.length ? "FAIL" : p1.length ? "PASS WITH FINDINGS" : "PASS"} ` +
-  `(P0 ${p0.length} · P1 ${p1.length} · P2 ${p2.length})\n`
-);
 
-process.exit(p0.length ? 1 : 0);
+// --------------------------------------------------------------------- CLI
+/** Render a result to stdout exactly as this harness always has. */
+export function report(recipes, result) {
+  const { p0, p1, p2, matrix } = result;
+  const pad = (s, n) => String(s).padEnd(n);
+
+  console.log("\nRegion x category coverage\n");
+  console.log(pad("", 22) + REGIONS.map((r) => pad(r, 18)).join(""));
+  for (const cat of CATEGORIES) {
+    const row = REGIONS.map((r) => pad(matrix[r][cat] || "—", 18)).join("");
+    console.log(pad(cat, 22) + row);
+  }
+  console.log(pad("TOTAL", 22) + REGIONS.map((r) =>
+    pad(recipes.filter((x) => x.region === r).length, 18)
+  ).join(""));
+
+  const section = (name, arr) => {
+    if (!arr.length) return;
+    console.log(`\n${name} (${arr.length})`);
+    arr.forEach((x) => console.log(`  - ${x}`));
+  };
+
+  console.log(`\n${recipes.length} recipes validated`);
+  section("P0 — SHIP-BLOCKER", p0);
+  section("P1 — MAJOR", p1);
+  section("P2 — MINOR", p2);
+
+  if (!p0.length && !p1.length && !p2.length) {
+    console.log("\nClean — no findings.");
+  }
+  console.log(
+    `\nVerdict: ${p0.length ? "FAIL" : p1.length ? "PASS WITH FINDINGS" : "PASS"} ` +
+    `(P0 ${p0.length} · P1 ${p1.length} · P2 ${p2.length})\n`
+  );
+}
+
+// Only run the CLI when invoked directly, so importing this file for tests is free
+// of side effects.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const result = validate(EXPANSION_RECIPES);
+  if (result.fatal) {
+    console.error("FATAL: EXPANSION_RECIPES is not an array");
+    process.exit(1);
+  }
+  report(EXPANSION_RECIPES, result);
+  process.exit(result.p0.length ? 1 : 0);
+}
