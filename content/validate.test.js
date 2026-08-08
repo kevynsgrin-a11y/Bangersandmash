@@ -13,7 +13,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { validate, words, slugify } from "./validate.js";
+import { validate, words, slugify, collisions } from "./validate.js";
 import { EXPANSION_RECIPES, toSiteShape } from "./recipes-expansion.js";
 
 const clone = () => structuredClone(EXPANSION_RECIPES);
@@ -76,6 +76,29 @@ test("an unrecognised region is a P0", () => {
   const r = clone();
   r[0].region = "Cornwall";
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
+});
+
+// --------------------------------------------- GATE-07: merge-time collisions
+test("GATE-07: a slug already in the library is reported as a collision", () => {
+  assert.deepEqual(collisions(["cullen-skink"], EXPANSION_RECIPES), ["cullen-skink"]);
+});
+
+test("GATE-07: no collision against a disjoint library", () => {
+  assert.deepEqual(collisions(["bangers-and-mash", "toad-in-the-hole"], EXPANSION_RECIPES), []);
+});
+
+test("GATE-07: an empty or missing library is safe, not a crash", () => {
+  assert.deepEqual(collisions([], EXPANSION_RECIPES), []);
+  assert.deepEqual(collisions(undefined, EXPANSION_RECIPES), []);
+  assert.deepEqual(collisions(["x"], undefined), []);
+});
+
+test("GATE-07: the in-module duplicate check cannot see a merge collision", () => {
+  // This is the gap GATE-07 closes: validate() only sees this module, so a
+  // collision with the existing library leaves it reporting clean.
+  const withCollision = validate(EXPANSION_RECIPES);
+  assert.equal(withCollision.p0.length, 0, "module alone is internally clean");
+  assert.equal(collisions(["cullen-skink"], EXPANSION_RECIPES).length, 1);
 });
 
 // --------------------------------------------------------- GATE-03: images

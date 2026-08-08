@@ -62,6 +62,22 @@ export const slugify = (s) =>
     .replace(/^-|-$/g, "");
 
 /**
+ * Slugs in `recipes` that already exist in the site's library.
+ *
+ * The duplicate-slug check inside validate() only sees this module, so it is
+ * blind to the one collision the merge can actually introduce: a new slug that
+ * matches one of the recipes already in mockData.js. A collision there does not
+ * throw — it produces two cards competing for one /generated/<slug>.jpg and a
+ * route that resolves to whichever object the filter happens to reach first.
+ *
+ *   collisions(existingSlugs, EXPANSION_RECIPES)  // -> [] when safe
+ */
+export function collisions(existingSlugs, recipes = []) {
+  const existing = new Set(existingSlugs || []);
+  return recipes.map((r) => r.slug).filter((s) => existing.has(s));
+}
+
+/**
  * Run every check against a recipe array and return the findings.
  *
  * Pure: no console output, no process.exit. The CLI block at the bottom of this

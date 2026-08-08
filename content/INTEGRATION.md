@@ -71,7 +71,23 @@ Either is fine; the module keeps the diff reviewable.
 - `listing-result-count` reads **55**
 - `/recipes?region=scotland` → 12+ · `?region=wales` → 10+ · `?region=northern-ireland` → 10+
 - Every category filter within each region returns ≥1
-- No duplicate slugs: `node -e "const r=require('./recipes-expansion.js').EXPANSION_RECIPES; const s=r.map(x=>x.slug); console.log(s.length === new Set(s).size ? 'OK' : 'DUPLICATES')"`
+- No duplicate slugs **in the merged array**. Checking this module on its own
+  cannot detect the collision the merge actually introduces — a new slug that
+  matches one of the existing 23. Pass the real library's slugs in:
+
+  ```bash
+  node -e '
+    import("./validate.js").then(async ({ collisions }) => {
+      const { EXPANSION_RECIPES } = await import("./recipes-expansion.js");
+      const existing = [/* paste the slugs already in mockData.js */];
+      const hits = collisions(existing, EXPANSION_RECIPES);
+      console.log(hits.length ? "COLLISION: " + hits.join(", ") : "OK");
+    })'
+  ```
+
+  A collision does not throw. It leaves two cards competing for one
+  `/generated/<slug>.jpg` and a recipe route that resolves to whichever object
+  the filter reaches first — a silent failure that looks like nothing is wrong.
 
 **Watch the region value.** If the site stores `region` lowercase-hyphenated, "Northern Ireland" must
 become `northern-ireland` or all ten recipes vanish from the filter while still appearing in the
