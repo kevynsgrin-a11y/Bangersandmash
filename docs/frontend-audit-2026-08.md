@@ -39,7 +39,7 @@ What *was* fully auditable is the content pipeline and both quality gates, and t
 audit concentrates. The brief's four "checks reviews usually skip" were all executable, and all four
 returned findings.
 
-**Grade mix across the 29 findings below:** 22 MEASURED, 6 OBSERVED, 1 INFERRED.
+**Grade mix across the 33 findings below:** 25 MEASURED, 6 OBSERVED, 2 INFERRED.
 **Discarded on re-verification: 9.** See the appendix — several were plausible and wrong.
 
 ---
@@ -104,17 +104,17 @@ render it lives in an Emergent job and has never been pushed.
 | Severity | Count |
 |---|---|
 | Critical | 5 |
-| High | 12 |
-| Medium | 9 |
-| Low | 3 |
-| **Total** | **29** |
+| High | 13 |
+| Medium | 11 |
+| Low | 4 |
+| **Total** | **33** |
 
-Shipped fixes: **13 commits**, one per finding, each revertable alone. Of those, **2 are flagged for
-human review**. **16 findings were reported without a fix** — the ones where the correct behaviour is
+Shipped fixes: **14 commits**, one per finding, each revertable alone. Of those, **2 are flagged for
+human review**. **19 findings were reported without a fix** — the ones where the correct behaviour is
 a judgement rather than a defect.
 
-Final state: `npm test --prefix content` → **66 tests, 66 pass**. `npm run validate --prefix content`
-→ exit 0.
+Final state: `npm test --prefix content` → **69 tests, 69 pass**. `npm run validate --prefix content`
+→ exit 0. Mutation sweep: **0 of 30 gate rules can be deleted with the suite green** (was 19).
 
 ---
 
@@ -281,6 +281,7 @@ since the failure produces no error message to search for. A test asserts the me
 | H-10 | `VERIFICATION-LOG.md` certifies *"Every prep and cook figure reconciles exactly against the method as written"* — falsified by H-07, H-08, H-09 | `content/VERIFICATION-LOG.md:210` | MEASURED | Reported |
 | H-11 | The three agents contractually required to be read-only are the only three with no `tools:` restriction | `.claude/agents/audit-firm/qa-verifier.md:1-12` | MEASURED | Reported — see note |
 | H-12 | 19 of the gate's 30 rules could be deleted with the test suite still green — the suite covered only the rules this audit touched | `content/validate.test.js` | MEASURED | **Fixed** `c3f358e` |
+| H-13 | One `REGIONS` list answered two questions — recognition and coverage — so adding an English recipe produced `P0: region not recognised: "England"`, on the site's largest region | `content/validate.js:23` | MEASURED | **Fixed** `fbff728` |
 
 **Note on H-11.** `qa-verifier.md:16` states the constraint in its own words: *"You verify; you never
 fix — a defect you quietly patch is a defect the process never learns from."* The frontmatter does
@@ -306,8 +307,11 @@ fails the FIX NOW bar. Draft below.
 | M-07 | Both documented image-generation commands ended in a literal `...` and were unrunnable; no document carried the full 32-slug list, though `IMAGE_PROMPTS.md` called itself "ready to paste" | `content/IMAGE_PROMPTS.md:15` | MEASURED | **Fixed** `5387d74` |
 | M-08 | `CONTENT_ADDITION_PLAN.md` §3's "Total after" column sums to 54 against its own stated total of 55 — the Wales row reads ~11 where the build record implies 12 | `content/CONTENT_ADDITION_PLAN.md:62-66` | MEASURED | Reported |
 | M-09 | The Phase 2 occasion table is date-anchored but carries no year and no review date. The doc is stamped `Prepared: 2026-07-25` with no expiry, and several of its occasions have already passed relative to this audit | `content/CONTENT_ADDITION_PLAN.md:3` | MEASURED | Reported |
+| M-10 | `schema.org/Recipe` cannot be emitted completely — the 18-key schema has no `author`, `datePublished` or `description` on any of the 32. Missing `author`/`datePublished` blocks rich results | `content/recipes-expansion.js` (schema) | MEASURED | Reported |
+| M-11 | The `image` field carries no intrinsic dimensions, so no `<img>` can be given `width`/`height` — 32 cards with no reserved space, which is a layout-shift source a redesign will inherit | `content/recipes-expansion.js` (schema) | MEASURED | Reported |
 | L-01 | `CONTENT_ADDITION_PLAN.md:140` states "Metric first, imperial in brackets" as binding. Met on 3 of 344 ingredient rows (0.9%). 28 oven temperatures are °C with zero °F and zero gas marks | `content/CONTENT_ADDITION_PLAN.md:140` | MEASURED | Reported — NEVER |
-| L-02 | 9 of 344 ingredient quantities ("a pinch", "a little") cannot be scaled by the serves adjuster the brief describes; the other 335 parse cleanly | `content/recipes-expansion.js` (ingredients) | MEASURED | Reported |
+| L-02 | The serves adjuster has two distinct failure modes: 9 of 344 quantities ("a pinch", "a little") produce NaN when scaled, and a further 19 unitless countables go fractional at 1.5× ("1 bay leaf" → 1.5). 28 rows total | `content/recipes-expansion.js` (ingredients) | MEASURED | Reported |
+| L-04 | 3 of the 7 category values carry a raw `&` — `Pies & Pastries`, `Puddings & Desserts`, `Soups & Stews`. Unencoded in a query string these truncate at the ampersand | `content/recipes-expansion.js:439` | INFERRED | Reported |
 | L-03 | The voice gate listed "scallion" as an Americanism, which would have failed the corpus's correct Ulster gloss once coverage was extended | `content/validate.js:48` | MEASURED | **Fixed (flagged)** `94f6cf0` |
 
 ---
@@ -468,6 +472,27 @@ mentioning "overnight", "the night before" or a multi-hour wait must declare it.
 check, because it would fail 7 recipes on a corpus that currently passes, and making it pass would
 require changing the times — which is the decision above, not a fix.
 
+### ARCH — brand identity, reported only
+
+Four names compete for one product, with no canonical source: the repo is **Bangersandmash**
+(`README.md:3`), the Emergent slug is **gastropub-table**, the stated name is **English Heritage
+Cookbook** (`README.md:1`), and `content/package.json:4` repeats the last. On top of the drift,
+"English Heritage" is the trading name of a real UK charity, and the name is factually wrong for a
+library whose entire expansion is 32 Scottish, Welsh and Northern Irish recipes — the site describes
+itself as British on the line immediately below it (`README.md:3`).
+
+Nothing shipped. Publisher identity and brand naming are explicitly out of scope for an automated
+fix, and the charity collision is a question for someone with legal standing to answer. Recording it
+because a redesign will put whichever name wins in 48pt type, and picking it after the visual work is
+the expensive order.
+
+### Secret scan — clean, recorded as a negative
+
+Zero credentials in tracked files and zero across git history. Worth stating explicitly because a
+live-format API key **does** appear in the Emergent job trajectory that produced this site (since
+confirmed dead — `API_KEY_SERVICE_BLOCKED`). It never reached this repository. The exposure is in the
+build platform's conversation log, not in the code, and it should be rotated there rather than here.
+
 ### H-11 — the unrestricted read-only agents
 
 Draft, to be applied only after verifying that MCP tools survive an explicit `tools:` list in this
@@ -580,24 +605,34 @@ assertions. That is where CRIT-03, CRIT-05 and H-06 all live.
 
 Six audit lenses were fanned out over the repository in parallel — gate, content data, docs, time and
 tests, front-end consequence, architecture — each scoped so findings would not duplicate, each
-required to grade every finding MEASURED / OBSERVED / INFERRED and cite `file:line`.
+required to grade every finding MEASURED / OBSERVED / INFERRED and cite `file:line`. Findings were
+then fed to an adversarial verification stage whose default verdict was REFUTED.
 
-**Four of the six lenses completed** (gate, data, docs, time-and-tests), returning 52 raw findings.
-**The architecture and front-end-consequence lenses, and the automated adversarial verification
-stage, had not completed when this report was written.** The run was capped at two concurrent agents,
-and the remaining work was still queued.
+**All six lenses completed**, returning 73 raw findings. **The automated adversarial verification
+stage did not run** — the workflow was capped at two concurrent agents and the verifiers were still
+queued behind the lens agents when this report was finalised.
 
-I have not reported anything on that basis that I did not verify myself. Every finding in this
-document was re-derived by hand before entry: I re-ran the commands, recomputed the numbers, and read
-the cited lines. Several agent findings were **corrected downward** in that process — one claimed
-1 of 344 ingredients carried imperial units where the true figure is 3; one claimed the audit
-protocol had no degraded-evidence rung when `site-audit.md:84` plainly has one; one reported a
-failing test that was a transient mid-edit state and passed on re-run. Those corrections are in the
-appendix.
+That matters, so I am stating plainly what replaced it: **I re-derived every finding by hand before
+entering it here.** I re-ran the commands, recomputed the numbers, and read the cited lines myself.
+That is the brief's own instruction — *"before writing anything down, re-verify each finding against
+source yourself"* — and it is the reason the 73 raw findings became 33.
 
-What that means for coverage: the architecture and front-end-consequence lenses are represented here
-only by the findings I produced myself (CRIT-01, M-04, M-05, L-02 and the naming-drift note). They
-are thinner than the other four, and a second pass would likely find more.
+The hand pass corrected several agent claims rather than accepting them:
+
+- One claimed 1 of 344 ingredients carried imperial units. The true figure is **3**.
+- One claimed the serves adjuster fails on **55** of 344 rows. I could not reproduce 55 by any
+  definition. I measured two distinct failure modes — **9** that produce NaN and **19** unitless
+  countables that go fractional — and reported those figures instead.
+- One claimed the audit protocol has no degraded-evidence rung. `site-audit.md:84` plainly has one,
+  capping un-screenshotted visual scores at 74 and marking them PROVISIONAL. Reported at the narrower
+  scope that survives.
+- One reported a failing test in this repo's own suite. It was a transient mid-edit state and passed
+  on re-run.
+- One claimed a documented `require()` command was broken by ESM. I ran it: exit 0.
+
+Nine raised findings were discarded outright — five of my own and four from the lenses. They are
+listed with reasons in the appendix, because the reasoning that produced them is the kind that
+recurs.
 
 Every number in this document was produced by executing code in this repository or by a command whose
 output is quoted above it. Nothing was measured in a browser, because there was nothing to point one
@@ -607,7 +642,7 @@ at.
 
 ## Verification of the fixes
 
-Each of the 13 commits carries a test that fails before it and passes after. Spot-check evidence:
+Each of the 14 fix commits carries a test that fails before it and passes after. Spot-check evidence:
 
 | Fix | Before | After |
 |---|---|---|
@@ -617,6 +652,7 @@ Each of the 13 commits carries a test that fails before it and passes after. Spo
 | GATE-10 string numbers | `editorialRating: "9.9"` → nothing reported | → `editorialRating is string "9.9", not a number` |
 | CRIT-05 merge snippet | snippet spread `EXPANSION_RECIPES` | test fails if it ever does again |
 | TEST-01 rule coverage | 19 of 30 rules deletable, suite green | 0 of 30 |
+| ARCH-04 region split | an England recipe → `P0: region not recognised` | accepted; unknown regions still P0 |
 
 The GATE-05 refactor that made all of this testable was verified non-behavioural: CLI output is
 byte-identical before and after, md5 `9d967d6e3550b9112b02a69ce9231495` both times.
