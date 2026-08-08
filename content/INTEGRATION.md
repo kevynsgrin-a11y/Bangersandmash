@@ -121,7 +121,8 @@ imagery** behind a listing grid, and it will dominate every performance metric t
 
 ```bash
 # generate at full quality, then:
-for f in public/generated/*.jpg; do
+# from /app — the images are under frontend/, not public/
+for f in frontend/public/generated/*.jpg; do
   cwebp -q 82 "$f" -o "${f%.jpg}.webp"
 done
 ```
