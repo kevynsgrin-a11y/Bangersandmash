@@ -109,9 +109,10 @@ render it lives in an Emergent job and has never been pushed.
 | Low | 8 |
 | **Total** | **39** |
 
-Shipped fixes: **20 commits**, one per finding, each revertable alone. Of those, **2 are flagged for
-human review**. **19 findings were reported without a fix** — the ones where the correct behaviour is
-a judgement rather than a defect.
+Shipped fixes: **18 commits**, each prefixed with its finding id and revertable alone. One commit
+(`e352c8b`) carries two findings that share a single root cause and a single edit region; every other
+is one-to-one. **2 are flagged for human review.** **21 findings were reported without a fix** — the
+ones where the correct behaviour is a judgement rather than a defect.
 
 Final state: `npm test --prefix content` → **76 tests, 76 pass**. `npm run validate --prefix content`
 → exit 0. Mutation sweep: **0 of 30 gate rules can be deleted with the suite green** (was 19).
@@ -652,7 +653,7 @@ at.
 
 ## Verification of the fixes
 
-Each of the 20 fix commits carries a test that fails before it and passes after. Spot-check evidence:
+Each of the 18 fix commits carries a test that fails before it and passes after. Spot-check evidence:
 
 | Fix | Before | After |
 |---|---|---|
