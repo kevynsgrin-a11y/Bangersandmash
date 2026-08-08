@@ -81,6 +81,33 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// ---------------------- DOC-02: documented commands must be runnable as-is
+test("DOC-02: the --only invocation lists all 32 slugs and no ellipsis", () => {
+  const doc = readFileSync(
+    fileURLToPath(new URL("./IMAGE_PROMPTS.md", import.meta.url)),
+    "utf8"
+  );
+  const m = doc.match(/--only ([a-z0-9,\-]+)/);
+  assert.ok(m, "--only invocation present");
+  const listed = m[1].split(",");
+  assert.deepEqual(listed, EXPANSION_RECIPES.map((r) => r.slug));
+  assert.equal(listed.length, 32);
+});
+
+test("DOC-02: no runnable command ships a truncated slug list", () => {
+  // `--only <slug,slug,...>` describing the flag's signature is fine. A line
+  // that actually invokes the generator with a trailing "..." is not.
+  for (const f of ["IMAGE_PROMPTS.md", "INTEGRATION.md"]) {
+    const doc = readFileSync(fileURLToPath(new URL(`./${f}`, import.meta.url)), "utf8");
+    const invocations = doc
+      .split("\n")
+      .filter((l) => /--only/.test(l) && !/`--only <slug/.test(l));
+    for (const line of invocations) {
+      assert.doesNotMatch(line, /\.\.\./, `${f}: unrunnable invocation -> ${line.trim()}`);
+    }
+  }
+});
+
 // ------------------------- DOC-01: the merge snippet must use the adapter
 test("DOC-01: INTEGRATION.md's merge snippet spreads toSiteShape, not the raw array", () => {
   const doc = readFileSync(

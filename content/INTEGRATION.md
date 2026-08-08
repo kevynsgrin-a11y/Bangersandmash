@@ -108,9 +108,8 @@ Every recipe carries an `imagePrompt` written to the site's established style di
 pipeline is `/app/scripts/generate_images.py` (Gemini "Nano Banana"), which already accepts
 `--only <slug,slug,...>` and writes to `/app/frontend/public/generated/<slug>.jpg`.
 
-```bash
-python3 scripts/generate_images.py --only cullen-skink,scotch-broth,... --concurrency 4
-```
+`IMAGE_PROMPTS.md` §"Running them" carries the complete 32-slug invocation, paste-ready. Run it from
+`/app`, not from `/app/frontend` — the script path is relative.
 
 Append the 32 prompts to that script's prompt map first — `IMAGE_PROMPTS.md` lists them keyed by
 slug, ready to paste.

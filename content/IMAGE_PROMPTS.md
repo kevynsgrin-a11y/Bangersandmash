@@ -10,10 +10,19 @@ shoot rather than two.
 
 Append these to the prompt map in `/app/scripts/generate_images.py`, then:
 
+All 32 slugs, complete and paste-ready — run from `/app`:
+
 ```bash
 python3 scripts/generate_images.py \
-  --only tattie-scones,forfar-bridie,scotch-pie,clootie-dumpling,... \
+  --only tattie-scones,forfar-bridie,scotch-pie,clootie-dumpling,cranachan,haggis-neeps-and-tatties,stovies,cullen-skink,scotch-broth,roast-leg-of-lamb-with-rowan-jelly,dundee-cake,scottish-shortbread,glamorgan-sausages,welsh-oggie,monmouth-pudding,anglesey-eggs,faggots-with-peas-and-onion-gravy,welsh-rarebit,cawl,roast-welsh-lamb-with-honey-and-rosemary,bara-brith,welsh-cakes,ulster-fry,steak-and-guinness-pie,buttermilk-and-apple-tart,boxty,champ,irish-stew,pea-and-ham-soup,roast-ham-with-cider-glaze,fifteens,wheaten-bread \
   --concurrency 4
+```
+
+Regenerate this list from the module rather than editing it by hand:
+
+```bash
+node -e 'import("./recipes-expansion.js").then(m =>
+  console.log(m.EXPANSION_RECIPES.map(r => r.slug).join(",")))'
 ```
 
 Output goes to `/app/frontend/public/generated/<slug>.jpg`.
