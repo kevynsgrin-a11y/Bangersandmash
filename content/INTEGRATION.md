@@ -55,13 +55,20 @@ adapter output for one recipe should be diff-comparable against a real `mockData
 
 ```js
 // mockData.js
-import { EXPANSION_RECIPES } from "./recipes-expansion";
+import { toSiteShape } from "./recipes-expansion";
 
 export const RECIPES = [
   ...EXISTING_RECIPES,
-  ...EXPANSION_RECIPES,
+  ...toSiteShape(),
 ];
 ```
+
+**Merge `toSiteShape()`, not `EXPANSION_RECIPES`.** The raw array carries the authoring schema —
+`prepMinutes`, `cookMinutes`, `cooksNote`, `editorialRating`. The site reads `prep`, `cook`, `notes`
+and `rating`. Spreading the raw array compiles and renders, and every one of the 32 new cards comes
+up with no time, no cook's note and no rating, because the fields it looks for are not there under
+those names. Reconcile the adapter against the real `mockData.js` first (§1) — that is what the
+adapter is for.
 
 Or paste the adapted objects directly into the existing array if the project avoids extra modules.
 Either is fine; the module keeps the diff reviewable.

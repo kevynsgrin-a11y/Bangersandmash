@@ -81,6 +81,31 @@ test("an unrecognised region is a P0", () => {
   assert.match(validate(r).p0.join("\n"), /region not recognised/);
 });
 
+// ------------------------- DOC-01: the merge snippet must use the adapter
+test("DOC-01: INTEGRATION.md's merge snippet spreads toSiteShape, not the raw array", () => {
+  const doc = readFileSync(
+    fileURLToPath(new URL("./INTEGRATION.md", import.meta.url)),
+    "utf8"
+  );
+  const merge = doc.slice(doc.indexOf("## 2. Merge"), doc.indexOf("**Check after merge:**"));
+  assert.match(merge, /\.\.\.toSiteShape\(\)/, "merge snippet must spread the adapter");
+  assert.doesNotMatch(
+    merge,
+    /\.\.\.EXPANSION_RECIPES/,
+    "merge snippet must not spread the raw authoring schema"
+  );
+});
+
+test("DOC-01: the raw array is missing the four fields the site reads", () => {
+  // This is why the snippet mattered: spreading the raw array renders 32 cards
+  // with no time, no note and no rating.
+  const raw = EXPANSION_RECIPES[0];
+  for (const f of ["prep", "cook", "notes", "rating"]) {
+    assert.equal(f in raw, false, `raw array unexpectedly has ${f}`);
+    assert.equal(f in toSiteShape()[0], true, `adapter must supply ${f}`);
+  }
+});
+
 // -------------------------------- GATE-10: numbers must actually be numbers
 test("GATE-10: a string-typed prepMinutes is caught", () => {
   const r = clone();
