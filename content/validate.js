@@ -30,12 +30,28 @@ const BANNED = [
   "game changer", "elevate", "crowd-pleaser", "crowd pleaser", "comfort food classic",
 ];
 
-// American spellings that betray a non-British writer. British spelling is binding.
-const AMERICANISMS = [
-  ["flavor", "flavour"], ["color", "colour"], ["caramelize", "caramelise"],
-  ["carameliz", "caramelis"], ["broil", "grill"], ["skillet", "frying pan"],
+// American SPELLINGS. These are never correct in British copy, so they are
+// flagged wherever they appear.
+const SPELLINGS = [
+  ["flavor", "flavour"], ["color", "colour"],
+  ["caramelize", "caramelise"], ["carameliz", "caramelis"],
+];
+
+// American VOCABULARY. Unlike a spelling, a word can be the correct regional
+// term — "scallion" is standard Ulster English, and Champ is definitionally a
+// scallion dish. The corpus handles this properly by glossing it against the
+// standard British term, both as a parenthetical ("spring onions (scallions in
+// Ulster)") and as a definition ("scallion is the local word for spring
+// onion"). So flag these only where the term appears in a sentence that does
+// NOT also carry the British equivalent — which still catches the writer who
+// reaches for the Americanism on its own.
+const VOCABULARY = [
+  ["broil", "grill"], ["skillet", "frying pan"],
   ["scallion", "spring onion"], ["confectioners sugar", "icing sugar"],
 ];
+
+/** Split prose into sentences so a gloss is judged in its own context. */
+const sentences = (s) => String(s || "").split(/(?<=[.!?])\s+/);
 
 export const words = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;
 export const slugify = (s) =>
@@ -136,8 +152,12 @@ for (const r of recipes) {
   BANNED.forEach((b) => {
     if (prose.includes(b)) fail(p1, s, `banned phrase in prose: "${b}"`);
   });
-  AMERICANISMS.forEach(([bad, good]) => {
+  SPELLINGS.forEach(([bad, good]) => {
     if (prose.includes(bad)) fail(p1, s, `American spelling "${bad}" — use "${good}"`);
+  });
+  VOCABULARY.forEach(([bad, good]) => {
+    const ungloss = sentences(prose).some((x) => x.includes(bad) && !x.includes(good));
+    if (ungloss) fail(p1, s, `American term "${bad}" used without the British term "${good}"`);
   });
 }
 

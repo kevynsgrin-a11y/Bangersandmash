@@ -105,6 +105,37 @@ test("GATE-03: stripping every image fails the gate, not passes it", () => {
   assert.equal(validate(r).p0.length, 32);
 });
 
+// ---------------------------------------- GATE-06: Ulster is not American
+test("GATE-06: American spellings are always caught", () => {
+  for (const bad of ["flavor", "color", "caramelize"]) {
+    const r = clone();
+    r[0].story += ` The ${bad} is notable.`;
+    assert.match(all(validate(r)), new RegExp(bad), `${bad} should be caught`);
+  }
+});
+
+test("GATE-06: an American term used alone is caught", () => {
+  const r = clone();
+  r[0].story += " Fry it in a skillet until brown.";
+  assert.match(all(validate(r)), /skillet/);
+});
+
+test("GATE-06: an American term glossed against the British one is not caught", () => {
+  const r = clone();
+  r[0].story += " Use spring onions (scallions in Ulster) here.";
+  assert.equal(all(validate(r)).includes("scallion"), false);
+});
+
+test("GATE-06: champ keeps its Ulster gloss and still passes", () => {
+  const champ = EXPANSION_RECIPES.find((x) => x.slug === "champ");
+  assert.ok(champ, "champ recipe present");
+  assert.match(champ.authenticityNote, /scallion is the local word for spring onion/);
+  assert.match(
+    champ.ingredients.map((i) => i.item).join(" "),
+    /spring onions \(scallions in Ulster\)/
+  );
+});
+
 // ------------------------------------------ GATE-04: message matches rule
 test("GATE-04: the imagePrompt message states the band it enforces", () => {
   const src = readFileSync(
