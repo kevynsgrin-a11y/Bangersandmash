@@ -39,7 +39,10 @@ trajectory fragments — tool output quoting field names, filter behaviour, and 
 ```bash
 # 1. Open the real file and read ONE existing recipe object in full.
 #    That single object is the contract. Everything below adapts to it.
-head -80 /app/frontend/src/lib/mockData.js
+#    Print from the first recipe to the end of that object — a recipe in this
+#    module runs to 67 lines, so a fixed `head -80` truncates it after the
+#    file's own preamble and you reconcile against half a contract.
+awk '/slug:/{f=1} f{print; if (/^  \},?$/) exit}' /app/frontend/src/lib/mockData.js
 ```
 
 Then run the adapter in `recipes-expansion.js` (bottom of the file) with the real key names filled
@@ -55,13 +58,20 @@ adapter output for one recipe should be diff-comparable against a real `mockData
 
 ```js
 // mockData.js
-import { EXPANSION_RECIPES } from "./recipes-expansion";
+import { toSiteShape } from "./recipes-expansion";
 
 export const RECIPES = [
   ...EXISTING_RECIPES,
-  ...EXPANSION_RECIPES,
+  ...toSiteShape(),
 ];
 ```
+
+**Merge `toSiteShape()`, not `EXPANSION_RECIPES`.** The raw array carries the authoring schema —
+`prepMinutes`, `cookMinutes`, `cooksNote`, `editorialRating`. The site reads `prep`, `cook`, `notes`
+and `rating`. Spreading the raw array compiles and renders, and every one of the 32 new cards comes
+up with no time, no cook's note and no rating, because the fields it looks for are not there under
+those names. Reconcile the adapter against the real `mockData.js` first (§1) — that is what the
+adapter is for.
 
 Or paste the adapted objects directly into the existing array if the project avoids extra modules.
 Either is fine; the module keeps the diff reviewable.
@@ -71,7 +81,23 @@ Either is fine; the module keeps the diff reviewable.
 - `listing-result-count` reads **55**
 - `/recipes?region=scotland` → 12+ · `?region=wales` → 10+ · `?region=northern-ireland` → 10+
 - Every category filter within each region returns ≥1
-- No duplicate slugs: `node -e "const r=require('./recipes-expansion.js').EXPANSION_RECIPES; const s=r.map(x=>x.slug); console.log(s.length === new Set(s).size ? 'OK' : 'DUPLICATES')"`
+- No duplicate slugs **in the merged array**. Checking this module on its own
+  cannot detect the collision the merge actually introduces — a new slug that
+  matches one of the existing 23. Pass the real library's slugs in:
+
+  ```bash
+  node -e '
+    import("./validate.js").then(async ({ collisions }) => {
+      const { EXPANSION_RECIPES } = await import("./recipes-expansion.js");
+      const existing = [/* paste the slugs already in mockData.js */];
+      const hits = collisions(existing, EXPANSION_RECIPES);
+      console.log(hits.length ? "COLLISION: " + hits.join(", ") : "OK");
+    })'
+  ```
+
+  A collision does not throw. It leaves two cards competing for one
+  `/generated/<slug>.jpg` and a recipe route that resolves to whichever object
+  the filter reaches first — a silent failure that looks like nothing is wrong.
 
 **Watch the region value.** If the site stores `region` lowercase-hyphenated, "Northern Ireland" must
 become `northern-ireland` or all ten recipes vanish from the filter while still appearing in the
@@ -85,9 +111,8 @@ Every recipe carries an `imagePrompt` written to the site's established style di
 pipeline is `/app/scripts/generate_images.py` (Gemini "Nano Banana"), which already accepts
 `--only <slug,slug,...>` and writes to `/app/frontend/public/generated/<slug>.jpg`.
 
-```bash
-python3 scripts/generate_images.py --only cullen-skink,scotch-broth,... --concurrency 4
-```
+`IMAGE_PROMPTS.md` §"Running them" carries the complete 32-slug invocation, paste-ready. Run it from
+`/app`, not from `/app/frontend` — the script path is relative.
 
 Append the 32 prompts to that script's prompt map first — `IMAGE_PROMPTS.md` lists them keyed by
 slug, ready to paste.
@@ -99,7 +124,8 @@ imagery** behind a listing grid, and it will dominate every performance metric t
 
 ```bash
 # generate at full quality, then:
-for f in public/generated/*.jpg; do
+# from /app — the images are under frontend/, not public/
+for f in frontend/public/generated/*.jpg; do
   cwebp -q 82 "$f" -o "${f%.jpg}.webp"
 done
 ```
