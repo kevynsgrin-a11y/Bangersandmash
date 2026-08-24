@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+  isRecipe?: boolean;
+}
+
+const { 
+  title, 
+  description, 
+  image = 'https://bangersandmash.uk/images/recipes/roast-beef-yorkshire.webp',
+  canonical = 'https://bangersandmash.uk/',
+  isRecipe = false
+} = Astro.props;
+
+const siteUrl = 'https://bangersandmash.uk';
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonical} />
+    
+    <!-- Open Graph (Fix P0-06) -->
+    <meta property="og:type" content={isRecipe ? 'article' : 'website'} />
+    <meta property="og:site_name" content="Bangers & Mash" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image.startsWith('http') ? image : `${siteUrl}${image}`} />
+    
+    <!-- Twitter Cards (Fix P0-06) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image.startsWith('http') ? image : `${siteUrl}${image}`} />
+    
+    <!-- PWA / Theme (Fix P1-17) -->
+    <meta name="theme-color" content="#1e3a2a" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <h1><a href="/">Bangers & Mash</a></h1>
+        <p>Cooked slowly, served proudly.</p>
+      </div>
+    </header>
+
+    <a href="#main-content" class="sr-only" style="position: absolute; top: -999px; left: -999px;">Skip to main content</a>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p><strong>Bangers & Mash</strong> &mdash; 92 English heritage recipes.</p>
+        <p><a href="/">All recipes</a> &middot; <a href="/sitemap-index.xml">Sitemap</a></p>
+        <p>&copy; 2026 Bangersandmash.uk</p>
+      </div>
+    </footer>
+  </body>
+</html>
