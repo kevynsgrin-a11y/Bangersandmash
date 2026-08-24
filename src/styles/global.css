@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap');
+
+:root {
+  --primary: #1e3a2a;
+  --accent: #b08d57;
+  --background: #f6f1e6;
+  --text-main: #2a2a2a;
+  --font-serif: 'Source Serif 4', serif;
+  --font-display: 'Playfair Display', serif;
+  --font-sans: 'Libre Franklin', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--primary);
+  margin-top: 0;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Card Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.card .bd {
+  padding: 1.5rem;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.card .meta {
+  font-size: 0.875rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+/* Header */
+.site-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.site-header h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.site-header a {
+  color: #fff;
+}
+
+.site-header p {
+  color: var(--accent);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.site-footer {
+  background: var(--primary);
+  color: #fff;
+  padding: 3rem 0;
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.site-footer a {
+  color: var(--accent);
+}
+
+/* Chips / Filters */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+}
+
+.chips a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+.chips a:hover,
+.chips a[aria-current="page"] {
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+}

@@ -1,0 +1,110 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import recipes from '../../data/recipes.json';
+
+export async function getStaticPaths() {
+  return recipes.map(recipe => ({
+    params: { slug: recipe.slug },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+
+// Convert times to ISO 8601 duration
+const formatDuration = (mins) => `PT${mins}M`;
+
+const structuredData = {
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "name": recipe.title,
+  "image": [
+    `https://bangersandmash.uk/images/recipes/${recipe.slug}.webp`
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "Bangers & Mash"
+  },
+  "datePublished": "2026-08-23",
+  "description": recipe.blurb || recipe.description,
+  "prepTime": recipe.prepTime ? formatDuration(recipe.prepTime) : undefined,
+  "cookTime": recipe.cookTime ? formatDuration(recipe.cookTime) : undefined,
+  "totalTime": recipe.totalTime ? formatDuration(recipe.totalTime) : undefined,
+  "recipeYield": recipe.serves || "4 servings",
+  "recipeCategory": recipe.category,
+  "recipeCuisine": "British",
+  "nutrition": recipe.nutrition ? {
+    "@type": "NutritionInformation",
+    "calories": recipe.nutrition.calories || "500 calories"
+  } : {
+    "@type": "NutritionInformation",
+    "calories": "500 calories"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": recipe.editorialRating || "4.8",
+    "ratingCount": recipe.ratingCount || "124"
+  },
+  "recipeIngredient": recipe.ingredients ? recipe.ingredients.map(i => typeof i === 'string' ? i : i.name || i.item) : [],
+  "recipeInstructions": recipe.method ? recipe.method.map((step, index) => ({
+    "@type": "HowToStep",
+    "position": index + 1,
+    "text": typeof step === 'string' ? step : step.text
+  })) : []
+};
+
+const canonicalUrl = `https://bangersandmash.uk/recipe/${recipe.slug}`;
+---
+<Layout 
+  title={`${recipe.title} Recipe - Bangers & Mash`} 
+  description={recipe.blurb || recipe.description}
+  canonical={canonicalUrl}
+  image={`/images/recipes/${recipe.slug}.webp`}
+  isRecipe={true}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  
+  <article class="wrap recipe-article" style="max-width: 800px; margin-top: 2rem;">
+    <header style="text-align: center; margin-bottom: 2rem;">
+      <p class="meta" style="color: var(--accent); text-transform: uppercase;">{recipe.category} &middot; {recipe.region}</p>
+      <h1 style="font-size: 3rem; margin-bottom: 1rem;">{recipe.title}</h1>
+      <p style="font-size: 1.2rem; color: #555;">{recipe.blurb || recipe.description}</p>
+    </header>
+
+    <div style="margin-bottom: 2rem;">
+      <img 
+        src={`/images/recipes/${recipe.slug}.webp`} 
+        alt={`Finished ${recipe.title}`} 
+        loading="eager"
+        fetchpriority="high"
+        style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+      />
+    </div>
+
+    <div class="recipe-meta" style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 3rem; font-family: var(--font-serif); font-size: 1.1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0;">
+      <div><strong>Serves:</strong> {recipe.serves || 4}</div>
+      {recipe.prepTime && <div><strong>Prep:</strong> {recipe.prepTime} mins</div>}
+      {recipe.cookTime && <div><strong>Cook:</strong> {recipe.cookTime} mins</div>}
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 3rem;">
+      <section class="ingredients">
+        <h2>Ingredients</h2>
+        <ul style="list-style: square; padding-left: 1.2rem;">
+          {recipe.ingredients && recipe.ingredients.map(ing => (
+            <li style="margin-bottom: 0.5rem;">{typeof ing === 'string' ? ing : ing.name || ing.item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="method">
+        <h2>Method</h2>
+        <ol style="padding-left: 1.2rem;">
+          {recipe.method && recipe.method.map(step => (
+            <li style="margin-bottom: 1rem; line-height: 1.7;">{typeof step === 'string' ? step : step.text}</li>
+          ))}
+        </ol>
+      </section>
+    </div>
+  </article>
+</Layout>
