@@ -1,43 +1,62 @@
-# Astro Starter Kit: Minimal
+# English Heritage Cookbook
 
-```sh
-npm create astro@latest -- --template minimal
+British regional recipe site — England, Scotland, Wales, Northern Ireland.
+
+> **This repository does not contain the site's source code.** The application lives at
+> `/app/frontend/` inside the Emergent job `gastropub-table` and has never been pushed here. This
+> repo currently holds the audit tooling and the content pipeline that feed it.
+
+**Live:** https://gastropub-table.preview.emergentagent.com/
+
+---
+
+## What is in here
+
+```
+.claude/                      Site Audit Firm — /site-audit orchestrator + 11 specialists
+SITE_BRIEF.md                 Reconstructed site brief; every line tagged [VERIFIED] or [UNKNOWN]
+content/
+  CONTENT_ADDITION_PLAN.md    The plan — gap analysis, phasing, editorial standards
+  recipes-expansion.js        Phase 1: 32 new recipes, drop-in module
+  IMAGE_PROMPTS.md            32 photography prompts, keyed by slug
+  VERIFICATION-LOG.md         Every defect the adversarial pass found and fixed
+  INTEGRATION.md              How to merge into mockData.js
+  validate.js                 Validation harness — run before and after merging
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Content pipeline
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+node content/validate.js       # schema, voice, coverage matrix; exits non-zero on any P0
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Phase 1 adds **32 recipes** across Scotland, Wales and Northern Ireland, taking the library from 23 to
+55 and filling all 28 region × category filter cells. Start with `content/INTEGRATION.md` §1 — the
+schema is inferred and must be reconciled against the real `mockData.js` before merging.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Audit
 
-Any static assets, like images, can be placed in the `public/` directory.
+The Site Audit Firm is installed in `.claude/` (source:
+[LiveURL-AuditAgents](https://github.com/kevynsgrin-a11y/LiveURL-AuditAgents)).
 
-## 🧞 Commands
+```
+/site-audit https://gastropub-table.preview.emergentagent.com/ critique
+```
 
-All commands are run from the root of the project, from a terminal:
+Use `critique` rather than `full` — Phase 3 needs a repo to edit, and the source is not here. The
+critique phases produce paste-ready build prompts instead.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+**Requires network egress to the preview host.** Sessions running under a restrictive network policy
+get a 403 on CONNECT and cannot reach the site.
 
-## 👀 Want to learn more?
+## Known open defects
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Carried over from the last build round, which stopped mid-refactor when its credit limit hit:
+
+- **15 orphaned components** written but never imported into `Recipe.jsx` / `Listing.jsx` / `Navbar.jsx`
+- **11 missing React hook dependencies** across five files
+- **Fabricated ratings** — every `rating` / `ratingCount` is an authored constant presented as crowd
+  data, on a site with no backend. See `content/CONTENT_ADDITION_PLAN.md` §4.
+- **Unoptimised imagery** — hero JPEGs run 738–859 KB each
+
+Details and provenance in `SITE_BRIEF.md`.
