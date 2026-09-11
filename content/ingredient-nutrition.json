@@ -1,10 +1,10 @@
 {
  "bundle": "bangersandmash-ingredient-nutrition",
  "source": "USDA FoodData Central via TrueAPI portfolio dictionary",
- "fetchedAt": "2026-09-11T17:23:19.789Z",
+ "fetchedAt": "2026-09-11T20:06:54.469Z",
  "counts": {
   "catalog": 252,
-  "resolved": 89
+  "resolved": 92
  },
  "entries": {
   "all-butter puff pastry, chilled": {
@@ -363,10 +363,21 @@
   "bramley apples (about 2 large), peeled, cored and cut into 1 cm slices": {
    "display": "Bramley apples (about 2 large), peeled, cored and cut into 1 cm slices",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709363,
+   "name": "Baby Toddler apples, Stage 1",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.2,
+    "fat_g": 0.2,
+    "carbs_g": 10.8,
+    "kcal": 41,
+    "sugar_g": 9.87,
+    "fiber_g": 1.7,
+    "calcium_mg": 4,
+    "iron_mg": 0.22,
+    "potassium_mg": 71,
+    "sodium_mg": 0
+   }
   },
   "butter": {
    "display": "butter",
@@ -757,11 +768,22 @@
   },
   "caster sugar (optional, see the authenticity note)": {
    "display": "caster sugar (optional, see the authenticity note)",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2710262,
+   "name": "Sugar substitute and sugar blend",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0.31,
+    "carbs_g": 99.35,
+    "kcal": 399,
+    "sugar_g": 99.22,
+    "fiber_g": 0,
+    "calcium_mg": 1,
+    "iron_mg": 0.05,
+    "potassium_mg": 2,
+    "sodium_mg": 1
+   }
   },
   "caster sugar, for dusting": {
    "display": "caster sugar, for dusting",
@@ -1381,10 +1403,19 @@
   "desiccated coconut, folded through the mixture (optional)": {
    "display": "desiccated coconut, folded through the mixture (optional)",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 168585,
+   "name": "Nuts, coconut meat, dried (desiccated), creamed",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 69.1,
+    "carbs_g": 21.5,
+    "kcal": 684,
+    "calcium_mg": 26,
+    "potassium_mg": 551,
+    "iron_mg": 3.36,
+    "sodium_mg": 37,
+    "protein_g": 5.3
+   }
   },
   "desiccated coconut, for rolling": {
    "display": "desiccated coconut, for rolling",
@@ -1898,34 +1929,78 @@
   "floury potatoes (golden wonder, maris piper or king edward), peeled and cut into even chunks": {
    "display": "floury potatoes (Golden Wonder, Maris Piper or King Edward), peeled and cut into even chunks",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709384,
+   "name": "Potato, baked, peel not eaten",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 1.95,
+    "fat_g": 0.1,
+    "carbs_g": 21.45,
+    "kcal": 93,
+    "sugar_g": 1.69,
+    "fiber_g": 1.5,
+    "calcium_mg": 5,
+    "iron_mg": 0.35,
+    "potassium_mg": 389,
+    "sodium_mg": 181
+   }
   },
   "floury potatoes (kerr's pink or maris piper), peeled and sliced 5 mm thick": {
    "display": "floury potatoes (Kerr's Pink or Maris Piper), peeled and sliced 5 mm thick",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709384,
+   "name": "Potato, baked, peel not eaten",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 1.95,
+    "fat_g": 0.1,
+    "carbs_g": 21.45,
+    "kcal": 93,
+    "sugar_g": 1.69,
+    "fiber_g": 1.5,
+    "calcium_mg": 5,
+    "iron_mg": 0.35,
+    "potassium_mg": 389,
+    "sodium_mg": 181
+   }
   },
   "floury potatoes (kerr's pink, golden wonder or maris piper), scrubbed, skins left on": {
    "display": "floury potatoes (Kerr's Pink, Golden Wonder or Maris Piper), scrubbed, skins left on",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709491,
+   "name": "Potato skins, NFS",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 6.07,
+    "fat_g": 12.4,
+    "carbs_g": 16.34,
+    "kcal": 199,
+    "sugar_g": 1.08,
+    "fiber_g": 1.5,
+    "calcium_mg": 141,
+    "iron_mg": 0.66,
+    "potassium_mg": 376,
+    "sodium_mg": 417
+   }
   },
   "floury potatoes (maris piper or kerr's pink), peeled, for grating": {
    "display": "floury potatoes (Maris Piper or Kerr's Pink), peeled, for grating",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709384,
+   "name": "Potato, baked, peel not eaten",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 1.95,
+    "fat_g": 0.1,
+    "carbs_g": 21.45,
+    "kcal": 93,
+    "sugar_g": 1.69,
+    "fiber_g": 1.5,
+    "calcium_mg": 5,
+    "iron_mg": 0.35,
+    "potassium_mg": 389,
+    "sodium_mg": 181
+   }
   },
   "floury potatoes such as golden wonder or maris piper, peeled and halved": {
    "display": "floury potatoes such as Golden Wonder or Maris Piper, peeled and halved",
@@ -2599,11 +2674,22 @@
   },
   "leeks, trimmed, split lengthways and finely sliced (about 400g)": {
    "display": "leeks, trimmed, split lengthways and finely sliced (about 400g)",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2709935,
+   "name": "Leeks",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 1.57,
+    "fat_g": 3.05,
+    "carbs_g": 14.74,
+    "kcal": 88,
+    "sugar_g": 4.07,
+    "fiber_g": 1.9,
+    "calcium_mg": 62,
+    "iron_mg": 2.19,
+    "potassium_mg": 188,
+    "sodium_mg": 151
+   }
   },
   "leeks, white and pale green only, sliced": {
    "display": "leeks, white and pale green only, sliced",
@@ -3323,10 +3409,21 @@
   "potato breads (fadge), about 90 g each": {
    "display": "potato breads (fadge), about 90 g each",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 167943,
+   "name": "Bread, potato",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "calcium_mg": 188,
+    "fat_g": 3.13,
+    "protein_g": 12.5,
+    "fiber_g": 6.3,
+    "iron_mg": 2.25,
+    "sodium_mg": 375,
+    "sugar_g": 9.38,
+    "carbs_g": 47.1,
+    "kcal": 266,
+    "potassium_mg": 718
+   }
   },
   "rapeseed oil": {
    "display": "rapeseed oil",
@@ -3897,10 +3994,21 @@
   "spring onions (scallions in ulster), trimmed and finely sliced, white and green parts kept separate": {
    "display": "spring onions (scallions in Ulster), trimmed and finely sliced, white and green parts kept separate",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 170005,
+   "name": "Onions, spring or scallions (includes tops and bulb), raw",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "sugar_g": 2.33,
+    "kcal": 32,
+    "fat_g": 0.19,
+    "calcium_mg": 72,
+    "potassium_mg": 276,
+    "protein_g": 1.83,
+    "fiber_g": 2.6,
+    "iron_mg": 1.48,
+    "sodium_mg": 16,
+    "carbs_g": 7.34
+   }
   },
   "sultanas": {
    "display": "sultanas",
@@ -4014,10 +4122,10 @@
   },
   "sweetened condensed milk (a little under half a 397 g tin)": {
    "display": "sweetened condensed milk (a little under half a 397 g tin)",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
+   "resolved": true,
+   "fdcId": 2758990,
+   "name": "Sweetened condensed milk",
+   "dataType": "Foundation",
    "per100g": {}
   },
   "table salt, for the potato water": {
@@ -4168,10 +4276,21 @@
   "unsmoked gammon joint (about 5 1/2 lb), boneless and tied": {
    "display": "unsmoked gammon joint (about 5 1/2 lb), boneless and tied",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2398806,
+   "name": "UNSMOKED PROVOLONE CHEESE, UNSMOKED",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 25,
+    "fat_g": 25,
+    "carbs_g": 3.57,
+    "kcal": 357,
+    "sugar_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 786,
+    "iron_mg": 0,
+    "potassium_mg": 0,
+    "sodium_mg": 679
+   }
   },
   "water": {
    "display": "water",
