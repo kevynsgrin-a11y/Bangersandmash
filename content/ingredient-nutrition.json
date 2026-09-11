@@ -1,35 +1,57 @@
 {
  "bundle": "bangersandmash-ingredient-nutrition",
  "source": "USDA FoodData Central via TrueAPI portfolio dictionary",
- "fetchedAt": "2026-09-11T11:00:54.709Z",
+ "fetchedAt": "2026-09-11T12:01:00.639Z",
  "counts": {
   "catalog": 252,
-  "resolved": 45
+  "resolved": 57
  },
  "entries": {
   "all-butter puff pastry, chilled": {
    "display": "all-butter puff pastry, chilled",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
+   "resolved": true,
+   "fdcId": 2292787,
+   "name": "COCKTAIL FRANKS IN AN ALL-BUTTER PUFF PASTRY, ALL-BUTTER",
+   "dataType": "Branded",
    "per100g": {}
   },
   "bacon dripping or butter, for frying the scones at breakfast": {
    "display": "bacon dripping or butter, for frying the scones at breakfast",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2710165,
+   "name": "Animal fat or drippings",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 2.23,
+    "fat_g": 92.18,
+    "carbs_g": 0,
+    "kcal": 841,
+    "sugar_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 5,
+    "iron_mg": 0.23,
+    "potassium_mg": 21,
+    "sodium_mg": 604
+   }
   },
   "bacon dripping, for frying": {
    "display": "bacon dripping, for frying",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2710165,
+   "name": "Animal fat or drippings",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 2.23,
+    "fat_g": 92.18,
+    "carbs_g": 0,
+    "kcal": 841,
+    "sugar_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 5,
+    "iron_mg": 0.23,
+    "potassium_mg": 21,
+    "sodium_mg": 604
+   }
   },
   "baking powder": {
    "display": "baking powder",
@@ -101,35 +123,79 @@
   },
   "beef dripping or bacon fat": {
    "display": "beef dripping or bacon fat",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2707202,
+   "name": "Egg omelet or scrambled egg, made with animal fat or meat drippings",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 11.7,
+    "fat_g": 15.3,
+    "carbs_g": 0.9,
+    "kcal": 188,
+    "sugar_g": 0.19,
+    "fiber_g": 0,
+    "calcium_mg": 45,
+    "iron_mg": 1.57,
+    "potassium_mg": 124,
+    "sodium_mg": 268
+   }
   },
   "beef dripping, ideally skimmed from the roasting tin": {
    "display": "beef dripping, ideally skimmed from the roasting tin",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 174597,
+   "name": "Roast beef spread",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 16.3,
+    "carbs_g": 3.73,
+    "kcal": 223,
+    "sugar_g": 0.71,
+    "calcium_mg": 23,
+    "sodium_mg": 724,
+    "fiber_g": 0.2,
+    "iron_mg": 2.06,
+    "protein_g": 15.3,
+    "potassium_mg": 259
+   }
   },
   "beef shin, trimmed and cut into 4 cm pieces": {
    "display": "beef shin, trimmed and cut into 4 cm pieces",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 172480,
+   "name": "Lamb, composite of trimmed retail cuts, separable lean and fat, trimmed to 1/4\" fat, choice, cooked",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "calcium_mg": 17,
+    "potassium_mg": 310,
+    "fat_g": 20.9,
+    "carbs_g": 0,
+    "kcal": 294,
+    "sodium_mg": 72,
+    "protein_g": 24.5,
+    "fiber_g": 0,
+    "iron_mg": 1.88,
+    "sugar_g": 0
+   }
   },
   "beef skirt or rump, trimmed and chopped by hand into 5mm pieces": {
    "display": "beef skirt or rump, trimmed and chopped by hand into 5mm pieces",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 172159,
+   "name": "Beef, plate steak, boneless, inside skirt, separable lean and fat, trimmed to 0\" fat, choice, raw",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 12.8,
+    "carbs_g": 0,
+    "kcal": 195,
+    "sugar_g": 0,
+    "calcium_mg": 6,
+    "potassium_mg": 254,
+    "protein_g": 20.1,
+    "fiber_g": 0,
+    "iron_mg": 1.7,
+    "sodium_mg": 65
+   }
   },
   "beef stock": {
    "display": "beef stock",
@@ -172,10 +238,21 @@
   "bicarbonate of soda, sieved": {
    "display": "bicarbonate of soda, sieved",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2710655,
+   "name": "Whiskey and soda",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 0,
+    "kcal": 59,
+    "sugar_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 4,
+    "iron_mg": 0.02,
+    "potassium_mg": 2,
+    "sodium_mg": 16
+   }
   },
   "black pepper, coarsely ground": {
    "display": "black pepper, coarsely ground",
@@ -197,11 +274,21 @@
   },
   "black pepper, freshly ground": {
    "display": "black pepper, freshly ground",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2654148,
+   "name": "BLACK GROUND PEPPER, BLACK",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 14.3,
+    "kcal": 0,
+    "sugar_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 0,
+    "iron_mg": 0,
+    "sodium_mg": 0
+   }
   },
   "black peppercorns": {
    "display": "black peppercorns",
@@ -221,10 +308,21 @@
   "black peppercorns, coarsely crushed": {
    "display": "black peppercorns, coarsely crushed",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 1912050,
+   "name": "POTATO CHIPS, SEA SALT & CRUSHED BLACK PEPPERCORNS",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 7.14,
+    "fat_g": 32.1,
+    "carbs_g": 57.1,
+    "kcal": 536,
+    "sugar_g": 0,
+    "fiber_g": 3.6,
+    "calcium_mg": 0,
+    "iron_mg": 1.29,
+    "potassium_mg": 1460,
+    "sodium_mg": 571
+   }
   },
   "black treacle": {
    "display": "black treacle",
@@ -248,10 +346,19 @@
   "bone-in leg of scotch lamb, out of the fridge for 1 hour": {
    "display": "bone-in leg of Scotch lamb, out of the fridge for 1 hour",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 174410,
+   "name": "Lamb, Australian, imported, fresh, leg, center slice, bone-in, separable lean and fat, trimmed to 1/8\" fat, raw",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "carbs_g": 0,
+    "protein_g": 19.2,
+    "iron_mg": 1.81,
+    "sodium_mg": 61,
+    "kcal": 195,
+    "calcium_mg": 10,
+    "potassium_mg": 318,
+    "fat_g": 12.6
+   }
   },
   "bramley apples (about 2 large), peeled, cored and cut into 1 cm slices": {
    "display": "Bramley apples (about 2 large), peeled, cored and cut into 1 cm slices",
@@ -278,58 +385,133 @@
   "butter, diced": {
    "display": "butter, diced",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 173511,
+   "name": "Babyfood, apples, dices, toddler",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fiber_g": 1.9,
+    "iron_mg": 0.08,
+    "sodium_mg": 2,
+    "protein_g": 0.19,
+    "fat_g": 0.36,
+    "carbs_g": 11.6,
+    "kcal": 50,
+    "sugar_g": 10.5,
+    "calcium_mg": 4,
+    "potassium_mg": 86
+   }
   },
   "butter, for greasing": {
    "display": "butter, for greasing",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 171314,
+   "name": "Butter, Clarified butter (ghee)",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 0,
+    "fiber_g": 0,
+    "iron_mg": 0,
+    "sodium_mg": 0,
+    "fat_g": 100,
+    "carbs_g": 0,
+    "kcal": 900,
+    "sugar_g": 0,
+    "calcium_mg": 0
+   }
   },
   "butter, for greasing the bakestone": {
    "display": "butter, for greasing the bakestone",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 171314,
+   "name": "Butter, Clarified butter (ghee)",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 0,
+    "fiber_g": 0,
+    "iron_mg": 0,
+    "sodium_mg": 0,
+    "fat_g": 100,
+    "carbs_g": 0,
+    "kcal": 900,
+    "sugar_g": 0,
+    "calcium_mg": 0
+   }
   },
   "butter, for the apples": {
    "display": "butter, for the apples",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 168816,
+   "name": "Fruit butters, apple",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 0.39,
+    "fiber_g": 1.5,
+    "iron_mg": 0.31,
+    "calcium_mg": 14,
+    "sodium_mg": 15,
+    "fat_g": 0.3,
+    "carbs_g": 42.5,
+    "kcal": 173,
+    "potassium_mg": 91,
+    "sugar_g": 35.3
+   }
   },
   "butter, for the dish": {
    "display": "butter, for the dish",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 173283,
+   "name": "DOMINO'S 14\" Cheese Pizza, Ultimate Deep Dish Crust",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 10.8,
+    "fiber_g": 2.4,
+    "iron_mg": 2.49,
+    "sodium_mg": 615,
+    "fat_g": 9.83,
+    "carbs_g": 33.5,
+    "kcal": 265,
+    "sugar_g": 4.22,
+    "calcium_mg": 166,
+    "potassium_mg": 169
+   }
   },
   "butter, for the peas": {
    "display": "butter, for the peas",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2707422,
+   "name": "Wasabi peas",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 14.11,
+    "fat_g": 14.11,
+    "carbs_g": 62.2,
+    "kcal": 432,
+    "sugar_g": 14.11,
+    "fiber_g": 3.8,
+    "calcium_mg": 123,
+    "iron_mg": 3.8,
+    "potassium_mg": 732,
+    "sodium_mg": 300
+   }
   },
   "butter, for the sauce": {
    "display": "butter, for the sauce",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 174070,
+   "name": "Sauce, peanut, made from peanut butter, water, soy sauce",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 16,
+    "carbs_g": 22,
+    "kcal": 257,
+    "sugar_g": 17.1,
+    "calcium_mg": 22,
+    "potassium_mg": 235,
+    "protein_g": 6.31,
+    "fiber_g": 1.8,
+    "iron_mg": 0.91,
+    "sodium_mg": 1340
+   }
   },
   "buttermilk": {
    "display": "buttermilk",
@@ -352,91 +534,207 @@
   },
   "buttermilk (16 fl oz), well shaken": {
    "display": "buttermilk (16 fl oz), well shaken",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2705393,
+   "name": "Buttermilk",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 3.46,
+    "fat_g": 1.08,
+    "carbs_g": 4.81,
+    "kcal": 43,
+    "sugar_g": 5.36,
+    "fiber_g": 0,
+    "calcium_mg": 120,
+    "iron_mg": 0.01,
+    "potassium_mg": 158,
+    "sodium_mg": 92
+   }
   },
   "buttermilk, well shaken": {
    "display": "buttermilk, well shaken",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2705393,
+   "name": "Buttermilk",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 3.46,
+    "fat_g": 1.08,
+    "carbs_g": 4.81,
+    "kcal": 43,
+    "sugar_g": 5.36,
+    "fiber_g": 0,
+    "calcium_mg": 120,
+    "iron_mg": 0.01,
+    "potassium_mg": 158,
+    "sodium_mg": 92
+   }
   },
   "caerphilly cheese, coarsely grated": {
    "display": "Caerphilly cheese, coarsely grated",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 171247,
+   "name": "Cheese, parmesan, grated",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 27.8,
+    "carbs_g": 13.9,
+    "kcal": 420,
+    "sugar_g": 0.07,
+    "calcium_mg": 853,
+    "potassium_mg": 180,
+    "protein_g": 28.4,
+    "iron_mg": 0.49,
+    "sodium_mg": 1800,
+    "fiber_g": 0
+   }
   },
   "caerphilly cheese, to serve": {
    "display": "Caerphilly cheese, to serve",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 171191,
+   "name": "Sauce, cheese, ready-to-serve",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fiber_g": 0.5,
+    "iron_mg": 0.21,
+    "sodium_mg": 828,
+    "protein_g": 6.71,
+    "fat_g": 13.3,
+    "carbs_g": 6.83,
+    "kcal": 174,
+    "sugar_g": 0.42,
+    "calcium_mg": 184,
+    "potassium_mg": 30
+   }
   },
   "caerphilly, crumbled": {
    "display": "Caerphilly, crumbled",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2259796,
+   "name": "Cheese, feta, whole milk, crumbled",
+   "dataType": "Foundation",
+   "per100g": {
+    "iron_mg": 0.0675,
+    "potassium_mg": 105,
+    "sodium_mg": 1030,
+    "fat_g": 19.1,
+    "calcium_mg": 371,
+    "carbs_g": 5.58,
+    "protein_g": 19.7
+   }
   },
   "candied orange peel, finely chopped": {
    "display": "candied orange peel, finely chopped",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 169103,
+   "name": "Orange peel, raw",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fiber_g": 10.6,
+    "kcal": 97,
+    "protein_g": 1.5,
+    "iron_mg": 0.8,
+    "sodium_mg": 3,
+    "fat_g": 0.2,
+    "carbs_g": 25,
+    "calcium_mg": 161,
+    "potassium_mg": 212
+   }
   },
   "carrots, cut into 1cm dice": {
    "display": "carrots, cut into 1cm dice",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709660,
+   "name": "Carrots, raw",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.87,
+    "fat_g": 0.24,
+    "carbs_g": 9.68,
+    "kcal": 44,
+    "sugar_g": 4.75,
+    "fiber_g": 2.9,
+    "calcium_mg": 36,
+    "iron_mg": 0.12,
+    "potassium_mg": 258,
+    "sodium_mg": 75
+   }
   },
   "carrots, cut into 2 cm chunks": {
    "display": "carrots, cut into 2 cm chunks",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2710119,
+   "name": "Baby Toddler carrots, Stage 2",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.8,
+    "fat_g": 0.2,
+    "carbs_g": 7.2,
+    "kcal": 32,
+    "sugar_g": 3.16,
+    "fiber_g": 1.7,
+    "calcium_mg": 23,
+    "iron_mg": 0.39,
+    "potassium_mg": 202,
+    "sodium_mg": 49
+   }
   },
   "carrots, diced": {
    "display": "carrots, diced",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2709660,
+   "name": "Carrots, raw",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.87,
+    "fat_g": 0.24,
+    "carbs_g": 9.68,
+    "kcal": 44,
+    "sugar_g": 4.75,
+    "fiber_g": 2.9,
+    "calcium_mg": 36,
+    "iron_mg": 0.12,
+    "potassium_mg": 258,
+    "sodium_mg": 75
+   }
   },
   "carrots, halved lengthways": {
    "display": "carrots, halved lengthways",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709660,
+   "name": "Carrots, raw",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.87,
+    "fat_g": 0.24,
+    "carbs_g": 9.68,
+    "kcal": 44,
+    "sugar_g": 4.75,
+    "fiber_g": 2.9,
+    "calcium_mg": 36,
+    "iron_mg": 0.12,
+    "potassium_mg": 258,
+    "sodium_mg": 75
+   }
   },
   "carrots, peeled and cut into thick rounds": {
    "display": "carrots, peeled and cut into thick rounds",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2092514,
+   "name": "CUT & PEELED BABY-CUT CARROTS",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 1.79,
+    "fat_g": 0,
+    "carbs_g": 8.93,
+    "kcal": 36,
+    "sugar_g": 7.14,
+    "fiber_g": 1.8,
+    "calcium_mg": 0,
+    "iron_mg": 0,
+    "sodium_mg": 80
+   }
   },
   "caster sugar": {
    "display": "caster sugar",
@@ -468,58 +766,123 @@
   "caster sugar, for dusting": {
    "display": "caster sugar, for dusting",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2673336,
+   "name": "HAPPY CASTER JELLY BEANS, HAPPY CASTER",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 88.5,
+    "kcal": 346,
+    "sugar_g": 73.1,
+    "sodium_mg": 0
+   }
   },
   "caster sugar, for the apples": {
    "display": "caster sugar, for the apples",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2673336,
+   "name": "HAPPY CASTER JELLY BEANS, HAPPY CASTER",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 88.5,
+    "kcal": 346,
+    "sugar_g": 73.1,
+    "sodium_mg": 0
+   }
   },
   "caster sugar, for the base": {
    "display": "caster sugar, for the base",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2673336,
+   "name": "HAPPY CASTER JELLY BEANS, HAPPY CASTER",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 88.5,
+    "kcal": 346,
+    "sugar_g": 73.1,
+    "sodium_mg": 0
+   }
   },
   "caster sugar, for the custard": {
    "display": "caster sugar, for the custard",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2705682,
+   "name": "Custard",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 5.08,
+    "fat_g": 3.64,
+    "carbs_g": 10.97,
+    "kcal": 97,
+    "sugar_g": 10.89,
+    "fiber_g": 0,
+    "calcium_mg": 117,
+    "iron_mg": 0.3,
+    "potassium_mg": 158,
+    "sodium_mg": 84
+   }
   },
   "caster sugar, for the meringue": {
    "display": "caster sugar, for the meringue",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2707941,
+   "name": "Cookie, meringue",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 5.66,
+    "fat_g": 0.26,
+    "carbs_g": 81.3,
+    "kcal": 350,
+    "sugar_g": 80.58,
+    "fiber_g": 0,
+    "calcium_mg": 5,
+    "iron_mg": 0.08,
+    "potassium_mg": 88,
+    "sodium_mg": 244
+   }
   },
   "caster sugar, plus 1 tbsp for dusting the cloot": {
    "display": "caster sugar, plus 1 tbsp for dusting the cloot",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 175221,
+   "name": "SILK Plus for Bone Health, soymilk",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 2.47,
+    "fiber_g": 0.8,
+    "iron_mg": 0.44,
+    "sodium_mg": 39,
+    "fat_g": 1.44,
+    "carbs_g": 4.53,
+    "kcal": 41,
+    "sugar_g": 2.88,
+    "potassium_mg": 123,
+    "calcium_mg": 165
+   }
   },
   "caul fat, soaked and drained": {
    "display": "caul fat, soaked and drained",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 169207,
+   "name": "Asparagus, canned, drained solids",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fiber_g": 1.6,
+    "sodium_mg": 287,
+    "calcium_mg": 16,
+    "potassium_mg": 172,
+    "fat_g": 0.65,
+    "protein_g": 2.14,
+    "iron_mg": 1.83,
+    "sugar_g": 1.06,
+    "carbs_g": 2.46,
+    "kcal": 19
+   }
   },
   "cayenne pepper": {
    "display": "cayenne pepper",
@@ -542,18 +905,40 @@
   "celery sticks, diced": {
    "display": "celery sticks, diced",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709811,
+   "name": "Celery juice",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.49,
+    "fat_g": 0.16,
+    "carbs_g": 3.32,
+    "kcal": 17,
+    "sugar_g": 1.34,
+    "fiber_g": 1.6,
+    "calcium_mg": 46,
+    "iron_mg": 0,
+    "potassium_mg": 265,
+    "sodium_mg": 97
+   }
   },
   "celery sticks, halved": {
    "display": "celery sticks, halved",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709811,
+   "name": "Celery juice",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0.49,
+    "fat_g": 0.16,
+    "carbs_g": 3.32,
+    "kcal": 17,
+    "sugar_g": 1.34,
+    "fiber_g": 1.6,
+    "calcium_mg": 46,
+    "iron_mg": 0,
+    "potassium_mg": 265,
+    "sodium_mg": 97
+   }
   },
   "cider vinegar": {
    "display": "cider vinegar",
@@ -577,26 +962,53 @@
   "clear honey, to glaze": {
    "display": "clear honey, to glaze",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 172945,
+   "name": "Oscar Mayer, Chicken Breast (honey glazed)",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "sodium_mg": 1440,
+    "protein_g": 19.8,
+    "fat_g": 1.5,
+    "carbs_g": 4.3,
+    "fiber_g": 0,
+    "iron_mg": 1.13,
+    "calcium_mg": 10,
+    "potassium_mg": 329,
+    "kcal": 109,
+    "sugar_g": 4.3
+   }
   },
   "coarse sea salt, for the potato water": {
    "display": "coarse sea salt, for the potato water",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2667615,
+   "name": "COARSE SEA SALT",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 0,
+    "kcal": 0,
+    "sodium_mg": 38700
+   }
   },
   "coarse wholemeal flour": {
    "display": "coarse wholemeal flour",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 431647,
+   "name": "PISELLI, ICASARECCI, BISCUIT WITH WHOLEMEAL WHEAT FLOUR",
+   "dataType": "Branded",
+   "per100g": {
+    "calcium_mg": 20,
+    "iron_mg": 0.72,
+    "protein_g": 8,
+    "fat_g": 20,
+    "carbs_g": 64,
+    "kcal": 482,
+    "sugar_g": 20,
+    "fiber_g": 2.6,
+    "sodium_mg": 362
+   }
   },
   "coarsely ground black pepper": {
    "display": "coarsely ground black pepper",
@@ -619,82 +1031,191 @@
   "coarsely ground black pepper, plus more to serve": {
    "display": "coarsely ground black pepper, plus more to serve",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2388919,
+   "name": "BLACK PEPPER OAK SMOKED COARSE GROUND SEASONING, BLACK PEPPER",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 50,
+    "kcal": 250,
+    "sugar_g": 0,
+    "fiber_g": 50,
+    "calcium_mg": 500,
+    "iron_mg": 27,
+    "sodium_mg": 50
+   }
   },
   "coarsely minced mutton, or lamb shoulder minced with its fat": {
    "display": "coarsely minced mutton, or lamb shoulder minced with its fat",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2706413,
+   "name": "Lamb or mutton with gravy",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 17.29,
+    "fat_g": 15.37,
+    "carbs_g": 1.58,
+    "kcal": 219,
+    "sugar_g": 0.09,
+    "fiber_g": 0,
+    "calcium_mg": 15,
+    "iron_mg": 1.34,
+    "potassium_mg": 228,
+    "sodium_mg": 359
+   }
   },
   "cold beef stock": {
    "display": "cold beef stock",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 171156,
+   "name": "Soup, mushroom with beef stock, canned, condensed",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 3.21,
+    "carbs_g": 7.41,
+    "kcal": 68,
+    "calcium_mg": 8,
+    "potassium_mg": 126,
+    "protein_g": 2.51,
+    "fiber_g": 0.1,
+    "iron_mg": 0.67,
+    "sodium_mg": 773,
+    "sugar_g": 2.28
+   }
   },
   "cold butter, cubed (optional, see the authenticity note), plus a knob for the tin": {
    "display": "cold butter, cubed (optional, see the authenticity note), plus a knob for the tin",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 175221,
+   "name": "SILK Plus for Bone Health, soymilk",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 2.47,
+    "fiber_g": 0.8,
+    "iron_mg": 0.44,
+    "sodium_mg": 39,
+    "fat_g": 1.44,
+    "carbs_g": 4.53,
+    "kcal": 41,
+    "sugar_g": 2.88,
+    "potassium_mg": 123,
+    "calcium_mg": 165
+   }
   },
   "cold butter, diced": {
    "display": "cold butter, diced",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 167702,
+   "name": "Oil, flaxseed, cold pressed",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "sugar_g": 0,
+    "protein_g": 0.11,
+    "iron_mg": 0,
+    "sodium_mg": 0,
+    "fat_g": 100,
+    "carbs_g": 0,
+    "kcal": 884,
+    "calcium_mg": 1,
+    "potassium_mg": 0,
+    "fiber_g": 0
+   }
   },
   "cold lamb or beef stock": {
    "display": "cold lamb or beef stock",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 171156,
+   "name": "Soup, mushroom with beef stock, canned, condensed",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 3.21,
+    "carbs_g": 7.41,
+    "kcal": 68,
+    "calcium_mg": 8,
+    "potassium_mg": 126,
+    "protein_g": 2.51,
+    "fiber_g": 0.1,
+    "iron_mg": 0.67,
+    "sodium_mg": 773,
+    "sugar_g": 2.28
+   }
   },
   "cold lard, diced": {
    "display": "cold lard, diced",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2707608,
+   "name": "Bread, lard, Puerto Rican style",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 7.33,
+    "fat_g": 3.26,
+    "carbs_g": 56.1,
+    "kcal": 282,
+    "sugar_g": 7.05,
+    "fiber_g": 2,
+    "calcium_mg": 14,
+    "iron_mg": 3.57,
+    "potassium_mg": 97,
+    "sodium_mg": 433
+   }
   },
   "cold leftover roast beef or lamb, torn into rough chunks": {
    "display": "cold leftover roast beef or lamb, torn into rough chunks",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2705847,
+   "name": "Beef, roast",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 29.08,
+    "fat_g": 9.72,
+    "carbs_g": 0,
+    "kcal": 206,
+    "sugar_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 15,
+    "iron_mg": 2.89,
+    "potassium_mg": 332,
+    "sodium_mg": 372
+   }
   },
   "cold mashed potato, unseasoned and free of lumps": {
    "display": "cold mashed potato, unseasoned and free of lumps",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2709708,
+   "name": "Sweet potato, casserole or mashed",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 1.89,
+    "fat_g": 2.56,
+    "carbs_g": 17.22,
+    "kcal": 99,
+    "sugar_g": 8.05,
+    "fiber_g": 2.4,
+    "calcium_mg": 39,
+    "iron_mg": 0.34,
+    "potassium_mg": 420,
+    "sodium_mg": 132
+   }
   },
   "cold salted butter, for the wells": {
    "display": "cold salted butter, for the wells",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 173410,
+   "name": "Butter, salted",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fiber_g": 0,
+    "iron_mg": 0.02,
+    "potassium_mg": 24,
+    "sodium_mg": 643,
+    "kcal": 717,
+    "fat_g": 81.1,
+    "carbs_g": 0.06,
+    "protein_g": 0.85,
+    "sugar_g": 0.06,
+    "calcium_mg": 24
+   }
   },
   "cold unsalted butter, cubed": {
    "display": "cold unsalted butter, cubed",
@@ -732,26 +1253,59 @@
   "cold water or light lamb stock": {
    "display": "cold water or light lamb stock",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2706660,
+   "name": "Stew, lamb",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 8.19,
+    "fat_g": 6.39,
+    "carbs_g": 6.29,
+    "kcal": 117,
+    "sugar_g": 1.57,
+    "fiber_g": 1.3,
+    "calcium_mg": 16,
+    "iron_mg": 0.79,
+    "potassium_mg": 254,
+    "sodium_mg": 308
+   }
   },
   "cold-pressed rapeseed oil": {
    "display": "cold-pressed rapeseed oil",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 598232,
+   "name": "RAPESEED OIL",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "carbs_g": 0,
+    "fiber_g": 0,
+    "calcium_mg": 0,
+    "iron_mg": 0,
+    "potassium_mg": 0,
+    "sodium_mg": 0,
+    "fat_g": 100,
+    "kcal": 900,
+    "sugar_g": 0
+   }
   },
   "cooked ham, shredded into rough pieces": {
    "display": "cooked ham, shredded into rough pieces",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 174611,
+   "name": "Ham, honey, smoked, cooked",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "protein_g": 17.9,
+    "fiber_g": 0,
+    "iron_mg": 0.39,
+    "sodium_mg": 900,
+    "fat_g": 2.37,
+    "carbs_g": 7.27,
+    "kcal": 122,
+    "sugar_g": 0,
+    "calcium_mg": 6,
+    "potassium_mg": 165
+   }
   },
   "currants": {
    "display": "currants",
@@ -775,10 +1329,16 @@
   "dark ale or stout": {
    "display": "dark ale or stout",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 2139470,
+   "name": "OZARK STOUT ALE MUSTARD",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 0,
+    "kcal": 100,
+    "sodium_mg": 1100
+   }
   },
   "dark brown soft sugar": {
    "display": "dark brown soft sugar",
@@ -801,11 +1361,22 @@
   },
   "dark muscovado sugar": {
    "display": "dark muscovado sugar",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2710262,
+   "name": "Sugar substitute and sugar blend",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0.31,
+    "carbs_g": 99.35,
+    "kcal": 399,
+    "sugar_g": 99.22,
+    "fiber_g": 0,
+    "calcium_mg": 1,
+    "iron_mg": 0.05,
+    "potassium_mg": 2,
+    "sodium_mg": 1
+   }
   },
   "desiccated coconut, folded through the mixture (optional)": {
    "display": "desiccated coconut, folded through the mixture (optional)",
@@ -818,10 +1389,19 @@
   "desiccated coconut, for rolling": {
    "display": "desiccated coconut, for rolling",
    "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "fdcId": 168585,
+   "name": "Nuts, coconut meat, dried (desiccated), creamed",
+   "dataType": "SR Legacy",
+   "per100g": {
+    "fat_g": 69.1,
+    "carbs_g": 21.5,
+    "kcal": 684,
+    "calcium_mg": 26,
+    "potassium_mg": 551,
+    "iron_mg": 3.36,
+    "sodium_mg": 37,
+    "protein_g": 5.3
+   }
   },
   "digestive biscuits, crushed to coarse crumbs": {
    "display": "digestive biscuits, crushed to coarse crumbs",
@@ -2498,11 +3078,22 @@
   },
   "whole milk": {
    "display": "whole milk",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2620729,
+   "name": "WHOLE MILK",
+   "dataType": "Branded",
+   "per100g": {
+    "protein_g": 3.33,
+    "fat_g": 3.33,
+    "carbs_g": 5,
+    "kcal": 62,
+    "sugar_g": 5,
+    "fiber_g": 0,
+    "calcium_mg": 104,
+    "iron_mg": 0,
+    "potassium_mg": 88,
+    "sodium_mg": 52
+   }
   },
   "whole milk, for glazing": {
    "display": "whole milk, for glazing",
@@ -2522,11 +3113,22 @@
   },
   "worcestershire sauce": {
    "display": "Worcestershire sauce",
-   "resolved": false,
-   "fdcId": null,
-   "name": null,
-   "dataType": null,
-   "per100g": {}
+   "resolved": true,
+   "fdcId": 2707447,
+   "name": "Worcestershire sauce",
+   "dataType": "Survey (FNDDS)",
+   "per100g": {
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 19.17,
+    "kcal": 77,
+    "sugar_g": 10.03,
+    "fiber_g": 0,
+    "calcium_mg": 107,
+    "iron_mg": 5.3,
+    "potassium_mg": 800,
+    "sodium_mg": 1300
+   }
   },
   "yellow split peas (about 1 lb 2 oz), rinsed": {
    "display": "yellow split peas (about 1 lb 2 oz), rinsed",
