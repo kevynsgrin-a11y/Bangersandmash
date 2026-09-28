@@ -3,6 +3,16 @@ const R = D.recipes, CATS = D.cats;
 const ORIGIN = "https://bangersandmash.uk";
 const IMG = "/images/recipes/";
 const SITE = "Bangers & Mash";
+// GA4 measurement (2026-09-28, handoff item 6). Per-site property + the fleet
+// roll-up this site is designated for. Fired from a same-origin /ga4.js
+// bootstrap — no 'unsafe-inline' — with the gtag loader in <head>.
+const GA4_PER_SITE = "G-BHGK3T9M5L";
+const GA4_ROLLUP = "G-Z389F0DBM8W";
+const GA4_BOOTSTRAP =
+  "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}" +
+  "gtag('js',new Date());" +
+  "gtag('config','" + GA4_PER_SITE + "');" +
+  "gtag('config','" + GA4_ROLLUP + "');";
 const esc = (s) => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const bySlug = Object.fromEntries(R.map(x => [x.slug, x]));
 const catById = Object.fromEntries(CATS.map(c => [c.id, c]));
@@ -98,9 +108,11 @@ function head(o) {
     '<meta name="theme-color" content="#1e3a2a">',
     '<link rel="manifest" href="/site.webmanifest">',
     FONTS,
+    '<script src="/ga4.js"></script>',
+    '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GA4_PER_SITE + '"></script>',
     "<style>" + CSS + "</style>",
     o.jsonld ? '<script type="application/ld+json">' + JSON.stringify(o.jsonld).replace(/</g, "\\u003c") + "</" + "script>" : "",
-    "<script async src='https://www.googletagmanager.com/gtag/js?id=G-BHGK3T9M5L'></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BHGK3T9M5L');</script></head><body>",
+    "</head><body>",
     '<a class="skip" href="#main-content">Skip to main content</a>',
     '<header class="site"><div class="wrap bar"><a class="brand" href="/">Bangers <span>&amp;</span> Mash</a>',
     '<nav class="main" aria-label="Primary"><ul>',
@@ -212,7 +224,7 @@ const SEC = {
   "referrer-policy": "strict-origin-when-cross-origin",
   "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
   "cross-origin-opener-policy": "same-origin",
-  "content-security-policy": "default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://bangersandmash.uk data:; connect-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+  "content-security-policy": "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://bangersandmash.uk data: https://*.google-analytics.com https://www.googletagmanager.com; connect-src https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
 };
 const html = (b, extra) => new Response(b, { headers: Object.assign({}, SEC, extra || {}) });
 
@@ -220,6 +232,7 @@ export default {
   fetch(req) {
     const u = new URL(req.url);
     let p = u.pathname.replace(/\/+$/, "") || "/";
+    if (p === "/ga4.js") return new Response(GA4_BOOTSTRAP, { headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=3600" } });
     if (p === "/robots.txt") return new Response("User-agent: *\nAllow: /\n\nSitemap: " + ORIGIN + "/sitemap.xml\n", { headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=3600" } });
     if (p === "/sitemap.xml") {
       const urls = ["/", "/recipes", "/heritage"].concat(CATS.map(function (c) { return "/collections/" + c.id; })).concat(R.map(function (x) { return "/recipe/" + x.slug; }));
