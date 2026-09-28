@@ -1,0 +1,15 @@
+# bangersandmash-v2 — the Worker behind bangersandmash.uk.
+#
+# Source of truth rescued from the live Worker on 2026-09-28 (it had been
+# built in-session with no repo). Deploy settings mirror the live Worker:
+# no bindings, standard usage model, compat date 2026-09-01, no workers.dev.
+#
+# Deploy (owner only):  npx wrangler deploy
+name = "bangersandmash-v2"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+# Routes live in the Cloudflare dashboard (apex + www on zone bangersandmash.uk)
+# and are deliberately NOT declared here, so a deploy only updates the script
+# and never touches routing.
