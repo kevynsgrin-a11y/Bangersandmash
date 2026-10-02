@@ -226,7 +226,7 @@ const SEC = {
   "cross-origin-opener-policy": "same-origin",
   "content-security-policy": "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://bangersandmash.uk data: https://*.google-analytics.com https://www.googletagmanager.com; connect-src https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
 };
-const html = (b, extra) => new Response(b, { headers: Object.assign({}, SEC, extra || {}) });
+const html = (b, init = {}) => new Response(b, { ...init, headers: { ...SEC, ...init.headers } });
 
 export default {
   fetch(req) {
