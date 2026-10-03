@@ -68,6 +68,9 @@ check('pilot: every block is a direct child of the one container', (() => {
   return !!m;
 })());
 
+check('pilot: no orphaned shot-slot spec captions', !/<figure data-shot="[^"]*"><figcaption>/.test(pilotHtml) && !/must match the card/i.test(pilotHtml));
+check('pilot: step figures survived cleanup', /<figure data-block="step"/.test(pilotHtml));
+
 const failed = checks.filter(([, ok]) => !ok).length;
 console.log(`\n${checks.length - failed}/${checks.length} passed`);
 process.exit(failed ? 1 : 0);
