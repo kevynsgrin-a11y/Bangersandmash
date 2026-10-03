@@ -1,12 +1,27 @@
-# English Heritage Cookbook
+# Bangers & Mash
+
+**Production source:** [`worker/`](worker/README.md), the Cloudflare Worker
+`bangersandmash-v2` serving https://bangersandmash.uk/ (92 English heritage
+recipes). Use the current default branch `claude/frontend-site-audit-g8zkms`;
+there is no root application build. Run `npm test --prefix worker` to check the
+Worker. Deployment and routing changes are owner-only.
+
+The Worker renders the site and uses `bangersandmash.pages.dev` only as a
+fallback for paths it does not render, including static assets. A legacy Pages
+custom-domain attachment is not the production deployment path. See
+[`docs/hosting-reconciliation-2026-10-02.md`](docs/hosting-reconciliation-2026-10-02.md)
+before changing hosting or DNS.
+
+## Historical Emergent content pipeline
 
 British regional recipe site — England, Scotland, Wales, Northern Ireland.
 
-> **This repository does not contain the site's source code.** The application lives at
-> `/app/frontend/` inside the Emergent job `gastropub-table` and has never been pushed here. This
-> repo currently holds the audit tooling and the content pipeline that feed it.
+The sections below describe the earlier Emergent application and content
+pipeline. They are historical context, not instructions for restoring the
+current production Worker. Its source was recovered into `worker/` in merged
+PR #7 on 2026-09-28.
 
-**Live:** https://gastropub-table.preview.emergentagent.com/
+**Historical preview:** https://gastropub-table.preview.emergentagent.com/
 
 ---
 

@@ -21,19 +21,27 @@ PRs like every other portfolio site.
 
 ## Known issue carried at rescue time
 
-The page CSP was `script-src 'none'; connect-src 'none'`, which silently
+The rescued page CSP was `script-src 'none'; connect-src 'none'`, which silently
 blocked ALL analytics — including the ga4-inject edge injection and a
-hand-pasted inline gtag snippet left inside the template. The site has been
-measuring zero GA4. The fix is the follow-up PR on this repo (per-site
+hand-pasted inline gtag snippet left inside the template. PR #7 includes the
+in-page fix in the current source (per-site
 G-BHGK3T9M5L + roll-up G-Z389F0DBM8W, same-origin /ga4.js bootstrap, Batch 2
-CSP pattern).
+CSP pattern). A merged PR is not proof that the owner deployed it; verify
+the live `/ga4.js` response before retiring an edge injection route.
 
 ## Deploy
 
 Owner-only, from a checkout:
 
+    cd worker
     npx wrangler deploy
 
 Agents never deploy. Routes stay dashboard-managed.
 
-> The Astro static-site half of bangersandmash.uk (the `bangersandmash.pages.dev` origin this Worker proxies for `/images`, `/videos`, `/assets`) is the repo root — this directory completes the picture.
+The Worker forwards every unhandled path to `bangersandmash.pages.dev`,
+including `/images`, `/videos` and `/assets`. This checkout does **not** contain
+that Pages deployment's static application source: the earlier Astro rebuild
+was reverted in PR #4. Preserve the existing Pages asset deployment; do not
+attempt to rebuild it from this repository root or bind the public domain to
+it as a substitute for the Worker. Its current project settings and deployment
+revision require owner account inspection.

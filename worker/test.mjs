@@ -28,6 +28,16 @@ check('/ga4.js is javascript + cacheable', (js.headers.get('content-type') ?? ''
 const robots = await worker.fetch(new Request('https://bangersandmash.uk/robots.txt'));
 check('robots.txt unaffected', robots.status === 200 && (await robots.text()).includes('Sitemap:'));
 
+// These paths are rendered by the Worker, not the Pages fallback. The 404
+// must be an HTTP status, not a header named "status" on a 200 response.
+for (const path of ['/recipe/__missing__', '/collections/__missing__']) {
+  const missing = await worker.fetch(new Request('https://bangersandmash.uk' + path));
+  check(path + ' returns a real 404', missing.status === 404);
+  check(path + ' preserves security headers without a status header',
+    missing.headers.get('content-security-policy') === csp && !missing.headers.has('status'));
+  check(path + ' renders the not-found page', (await missing.text()).includes('<h1>Not found</h1>'));
+}
+
 const failed = checks.filter(([, ok]) => !ok).length;
 console.log(`\n${checks.length - failed}/${checks.length} passed`);
 process.exit(failed ? 1 : 0);
