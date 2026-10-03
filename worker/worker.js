@@ -275,8 +275,8 @@ function pagePacket() {
   const desc = String(ld.description || '').replace(/\s+/g, ' ').slice(0, 185);
   const H = head({ path: '/recipe/' + PILOT_SLUG, title: ld.name + ' Recipe | ' + SITE, desc: desc, type: 'article', jsonld: ld, image: PILOT_HERO });
   return H.replace('</head>', '<style>' + RPC_CSS + '</style></head>')
-    + '<main id="main-content">' + body + '</main>' + foot
-    + '<script src="/rpc-pilot.js" defer></script>';
+    + '<main id="main-content">' + body + '</main>'
+    + foot.replace('</body>', '<script src="/rpc-pilot.js" defer></script></body>');
 }
 
 const RPC_PRINT_JS = "document.addEventListener('click',function(e){var t=e.target.closest('[data-action=\"print\"]');if(t){window.print();}});";
