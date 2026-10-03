@@ -263,6 +263,13 @@ function pagePacket() {
   body = body.replace(/<figure data-block="hero">[\s\S]*?<\/figure>/, '<figure data-block="hero">' + heroImg + (heroCap ? '<figcaption>' + heroCap + '</figcaption>' : '') + '</figure>');
   body = body.replace(/<figure data-shot="CARD"><img[^>]*><\/figure>/, '<figure data-shot="CARD"><img src="' + PILOT_HERO + '" width="1536" height="3075" style="aspect-ratio:1/1" alt="' + esc(heroAlt) + '" fetchpriority="high" decoding="async"></figure>');
   body = body.replace(/<img src="\/assets\/recipes\/"[^>]*>/g, '');
+  // Shot-slot figures left without an image are removed whole (their captions
+  // are composer spec); step figures are figure-wrapped content WITHOUT imgs
+  // and are never touched.
+  body = body.replace(/<figure data-shot="[^"]*"[^>]*>(?:(?!<img[\s\S])[\s\S])*?<\/figure>/g, '');
+  body = body.replace(/<figure data-block="pre-card-glamour"[^>]*>(?:(?!<img[\s\S])[\s\S])*?<\/figure>/g, '');
+  if (/<figcaption>[^<]*must match the card/i.test(body)) throw new Error('pilot packet drift: composer spec caption leaked');
+  if (!/<figure data-block="step"/.test(body)) throw new Error('pilot packet drift: step figures missing after cleanup');
   // Loud failure on skeleton drift: never ship orphaned tag fragments or
   // missing hero swaps silently.
   if (body.includes('src="\/assets\/recipes\/"')) throw new Error('pilot packet drift: placeholder survived full-tag strip');
