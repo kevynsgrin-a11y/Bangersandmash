@@ -262,7 +262,12 @@ function pagePacket() {
   const heroImg = '<img src="' + PILOT_HERO + '" width="1536" height="3075" style="aspect-ratio:4/3" alt="' + esc(heroAlt) + '" fetchpriority="high" decoding="async">';
   body = body.replace(/<figure data-block="hero">[\s\S]*?<\/figure>/, '<figure data-block="hero">' + heroImg + (heroCap ? '<figcaption>' + heroCap + '</figcaption>' : '') + '</figure>');
   body = body.replace(/<figure data-shot="CARD"><img[^>]*><\/figure>/, '<figure data-shot="CARD"><img src="' + PILOT_HERO + '" width="1536" height="3075" style="aspect-ratio:1/1" alt="' + esc(heroAlt) + '" fetchpriority="high" decoding="async"></figure>');
-  body = body.replace(/<img src="\/assets\/recipes\/"/g, '');
+  body = body.replace(/<img src="\/assets\/recipes\/"[^>]*>/g, '');
+  // Loud failure on skeleton drift: never ship orphaned tag fragments or
+  // missing hero swaps silently.
+  if (body.includes('src="\/assets\/recipes\/"')) throw new Error('pilot packet drift: placeholder survived full-tag strip');
+  const heroHits = body.split(PILOT_HERO).length - 1;
+  if (heroHits !== 2) throw new Error('pilot packet drift: expected hero+card to reference the real asset exactly twice, got ' + heroHits);
 
   const ld = Object.assign({}, pilot.jsonld);
   ld.image = [ORIGIN + PILOT_HERO];
@@ -270,8 +275,11 @@ function pagePacket() {
   const desc = String(ld.description || '').replace(/\s+/g, ' ').slice(0, 185);
   const H = head({ path: '/recipe/' + PILOT_SLUG, title: ld.name + ' Recipe | ' + SITE, desc: desc, type: 'article', jsonld: ld, image: PILOT_HERO });
   return H.replace('</head>', '<style>' + RPC_CSS + '</style></head>')
-    + '<main id="main-content">' + body + '</main>' + foot;
+    + '<main id="main-content">' + body + '</main>' + foot
+    + '<script src="/rpc-pilot.js" defer></script>';
 }
+
+const RPC_PRINT_JS = "document.addEventListener('click',function(e){var t=e.target.closest('[data-action=\"print\"]');if(t){window.print();}});";
 
 export default {
   fetch(req) {
@@ -290,6 +298,7 @@ export default {
     if (p === "/recipes") return html(pageList(null));
     if (p === "/heritage") return html(pageHeritage());
     if (p.indexOf("/collections/") === 0) { const id = p.slice(13); if (catById[id]) return html(pageList(id)); }
+    if (p === "/rpc-pilot.js") return new Response(RPC_PRINT_JS, { headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=3600" } });
     if (p === "/recipe/" + PILOT_SLUG) return html(pagePacket());
     if (p.indexOf("/recipe/") === 0) { const x = bySlug[p.slice(8)]; if (x) return html(pageRecipe(x)); }
     const notFound = function () { return html(head({ path: p, title: "Page not found | " + SITE, desc: "That page does not exist." }) + '<main id="main-content"><div class="wrap"><h1>Not found</h1><p class="lede">That page does not exist. <a href="/recipes">Browse all 92 recipes</a>.</p></div></main>' + foot, { status: 404 }); };

@@ -46,7 +46,12 @@ check('pilot: exactly one content container', (pilotHtml.match(/data-rpc="conten
 check('pilot: jump bar sits before the recipe card', pilotHtml.indexOf('data-block="jump-bar"') >= 0 && pilotHtml.indexOf('data-block="jump-bar"') < pilotHtml.indexOf('id="rpc-card"'));
 check('pilot: card uses the shared .rpc-card selector', /class="rpc-card"/.test(pilotHtml));
 check('pilot: no unmapped placeholder images remain', !pilotHtml.includes('src="/assets/recipes/"'));
+check('pilot: no orphaned tag fragments in shot figures', !/data-shot="[^"]*">[^<]*width="/.test(pilotHtml) && !/data-block="[^"]*"[^>]*>s*width="/.test(pilotHtml));
 check('pilot: hero serves the real recovered photograph', pilotHtml.includes('src="/images/recipes/roast-beef-yorkshire.webp"'));
+check('pilot: real hero referenced exactly twice (hero + card)', (pilotHtml.match(/src="\/images\/recipes\/roast-beef-yorkshire\.webp"/g) ?? []).length === 2);
+const printJs = await worker.fetch(new Request('https://bangersandmash.uk/rpc-pilot.js'));
+check('pilot: print handler served same-origin with correct type', printJs.status === 200 && (printJs.headers.get('content-type') ?? '').includes('javascript') && (await printJs.text()).includes('window.print()'));
+check('pilot: print script referenced by the page', pilotHtml.includes('<script src="/rpc-pilot.js" defer></script>'));
 check('pilot: at least 14 contract blocks rendered', (pilotHtml.match(/data-block="/g) ?? []).length >= 14);
 const ldBlocks = pilotHtml.match(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g) ?? [];
 const pilotLd = ldBlocks.length ? JSON.parse(ldBlocks[ldBlocks.length - 1].replace(/^<[^>]+>/, '').replace(/<\/script>$/, '')) : null;
